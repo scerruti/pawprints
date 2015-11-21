@@ -1,0 +1,111 @@
+package com.otabi.pawprints.controller;
+
+import com.otabi.scoutbook.Authentication;
+import com.otabi.scoutbook.Session;
+import javafx.beans.binding.Bindings;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class LoginDialog extends Stage implements Initializable {
+    @FXML
+    private Text actiontarget;
+    @FXML
+    private TextField emailInput;
+    @FXML
+    private PasswordField passwordInput;
+    @FXML
+    private Button loginButton;
+
+    public LoginDialog(Parent parent) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/otabi/pawprints/view/LoginDialog/LoginDialog.fxml"));
+        fxmlLoader.setController(this);
+
+        try {
+            setScene(new Scene((Parent) fxmlLoader.load()));
+            bindUIandService();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    protected void handleSubmitButtonAction(ActionEvent event) {
+        try {
+            Authentication.setEmail(emailInput.getText());
+            Authentication.setPassword(passwordInput.getText());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        loginService.start();
+    }
+
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        emailInput.setText(Authentication.getEmail());
+        passwordInput.setText(Authentication.getPassword());
+    }
+
+    private final Service loginService = new Service() {
+        @Override
+        protected Task createTask() {
+            return new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    Session.getInstance();
+                    return null;
+                }
+
+                @Override
+                protected void failed() {
+                    super.failed();
+                    Throwable e = this.getException();
+                    actiontarget.setText(String.format("%s\n%s", e.getMessage(), e.getCause().getMessage()));
+                    reset();
+                }
+
+                @Override
+                protected void succeeded() {
+                    super.succeeded();
+                    getScene().getRoot().cursorProperty().unbind();
+                    hide();
+                }
+            };
+        }
+    };
+
+
+    private void bindUIandService() {
+        getScene()
+                .getRoot()
+                .cursorProperty()
+                .bind(
+                        Bindings
+                                .when(loginService.runningProperty())
+                                .then(Cursor.WAIT)
+                                .otherwise(Cursor.DEFAULT)
+                );
+
+        loginButton
+                .disableProperty()
+                .bind(
+                        loginService.runningProperty()
+                );
+    }
+
+}

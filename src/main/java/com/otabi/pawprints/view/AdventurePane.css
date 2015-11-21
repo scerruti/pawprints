@@ -1,0 +1,5 @@
+.table-view .column-header .label{
+    -fx-text-fill: green;
+    -fx-min-height: 100px;
+    -fx-min-width: 100px;
+}
