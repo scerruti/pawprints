@@ -80,6 +80,7 @@ public class Session {
 
         if (sessionCookies == null) {
             sessionCookies = new HashMap<String, String>();
+            cookies.put(email, sessionCookies);
         }
         url = URLFactory.getHomepage();
         connection = (HttpURLConnection) url.openConnection();
