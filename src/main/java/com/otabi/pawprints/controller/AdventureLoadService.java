@@ -8,6 +8,8 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
@@ -15,6 +17,8 @@ import java.io.IOException;
  * Created by Stephen on 11/17/2015.
  */
 public class AdventureLoadService extends Service<Void> {
+    final static Logger logger = LoggerFactory.getLogger(AdventureLoadService.class);
+
     protected ProgramAdventure adventure;
     protected Den den;
     protected BorderPane borderPane;
@@ -50,6 +54,7 @@ public class AdventureLoadService extends Service<Void> {
         @Override
         protected Void call() throws Exception {
             if (this.borderPane == null || this.den == null || this.adventure == null) {
+                logger.error("Settings required to load adventure are null.");
                 throw new IllegalArgumentException("Settings required to load adventure are null");
             }
 
@@ -61,7 +66,7 @@ public class AdventureLoadService extends Service<Void> {
         protected void failed() {
             super.failed();
             Throwable e = this.getException();
-            e.printStackTrace();
+            logger.error("Error loading adventure.", e);
         }
 
         @Override
@@ -69,19 +74,18 @@ public class AdventureLoadService extends Service<Void> {
             super.succeeded();
 
 
-            FXMLLoader loader = new FXMLLoader(PawPrints.class.getResource("view/AdventurePane.fxml"));
+            FXMLLoader loader = new FXMLLoader(PawPrints.class.getResource("/com/otabi/pawprints/view/AdventurePane.fxml"));
             AdventurePaneController controller = new AdventurePaneController();
             loader.setController(controller);
             AnchorPane pane = null;
             try {
                 pane = (AnchorPane) loader.load();
+                borderPane.setCenter(pane);
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error("Error loading adventure pane.", e);
+            } finally {
+                reset();
             }
-            //controller.bind(adventure, den);
-            borderPane.setCenter(pane);
-            reset();
-
         }
     }
 }
