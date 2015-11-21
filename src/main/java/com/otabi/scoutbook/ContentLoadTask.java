@@ -4,6 +4,8 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.concurrent.Task;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URL;
 
@@ -11,6 +13,8 @@ import java.net.URL;
  * Created by Stephen on 11/17/2015.
  */
 public class ContentLoadTask extends Task<String> {
+    protected Logger logger = LoggerFactory.getLogger(this.getClass());
+
     protected final URL url;
     protected static BooleanProperty loadingProperty = new SimpleBooleanProperty(false);
 
@@ -32,7 +36,7 @@ public class ContentLoadTask extends Task<String> {
             throw new IllegalArgumentException("No URL set in when loading content.");
         }
         loadingProperty.setValue(true);
-        String content = Session.getContent(url);
+        String content = Session.getInstance().getContent(url);
         loadingProperty.setValue(false);
         return content;
     }

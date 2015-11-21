@@ -7,6 +7,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -15,6 +17,8 @@ import java.util.Map;
  * Created by Stephen on 11/15/2015.
  */
 public class Den {
+    final static Logger logger = LoggerFactory.getLogger(Den.class);
+
     protected final IntegerProperty unit;
     protected final IntegerProperty den;
     protected final StringProperty denName;

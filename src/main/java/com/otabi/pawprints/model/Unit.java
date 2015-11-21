@@ -1,9 +1,14 @@
 package com.otabi.pawprints.model;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Created by Stephen on 11/16/2015.
  */
 public class Unit {
+    final static Logger logger = LoggerFactory.getLogger(Unit.class);
+
     protected String unitName;
     protected int unitId;
 

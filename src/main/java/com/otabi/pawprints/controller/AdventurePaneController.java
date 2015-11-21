@@ -27,6 +27,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Callback;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -39,6 +41,8 @@ import java.util.ResourceBundle;
  */
 public class AdventurePaneController implements Initializable,ListChangeListener<Scout> {
     protected static final int MIN_COLUMN_WIDTH = 25;
+    final static Logger logger = LoggerFactory.getLogger(AdventurePaneController.class);
+
     @FXML
     protected BorderPane adventurePane;
 

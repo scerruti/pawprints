@@ -3,6 +3,8 @@ package com.otabi.scoutbook;
 import com.otabi.pawprints.model.Rank;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +15,7 @@ import java.util.regex.Pattern;
  * Created by Stephen on 11/14/2015.
  */
 public class Advancement {
+    protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
     protected static final String ADVANCEMENT_PATTERN =
             "adventure\\.asp\\?" +

@@ -11,7 +11,16 @@
     <properties>
         <mainClass>com.otabi.pawprints.PawPrints</mainClass>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <slf4jVersion>1.6.1</slf4jVersion>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>version99</id>
+            <!-- highly available repository serving empty artifacts -->
+            <url>http://version99.qos.ch/</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <dependency>
@@ -24,8 +33,32 @@
             <artifactId>launch4j-maven-plugin</artifactId>
             <version>1.7.8</version>
         </dependency>
-    </dependencies>
-
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>99-empty</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4jVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4jVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>${slf4jVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.16</version>
+            <scope>runtime</scope>
+        </dependency>    </dependencies>
     <build>
         <resources>
             <resource>
@@ -48,7 +81,9 @@
                     <execution>
                         <id>l4j-gui</id>
                         <phase>package</phase>
-                        <goals><goal>launch4j</goal></goals>
+                        <goals>
+                            <goal>launch4j</goal>
+                        </goals>
                         <configuration>
                             <headerType>gui</headerType>
                             <outfile>target/pawprints.exe</outfile>
@@ -61,7 +96,7 @@
                             </classPath>
                             <jre>
                                 <minVersion>1.8.0_5</minVersion>
-                                <path>resource/jre/jre</path>
+                                <path>${java.home}/jre</path>
                                 <opts>
                                     <opt>-Dfile.encoding=UTF-8</opt>
                                 </opts>
@@ -87,7 +122,9 @@
                     <execution>
                         <id>create-distribution</id>
                         <phase>package</phase>
-                        <goals><goal>single</goal></goals>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
                         <configuration>
                             <descriptors>
                                 <descriptor>assembly.xml</descriptor>

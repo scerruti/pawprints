@@ -13,6 +13,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ import java.util.ResourceBundle;
  * Created by Stephen on 11/16/2015.
  */
 public class AdventureSelectionController implements Initializable {
+    final static Logger logger = LoggerFactory.getLogger(AdventureSelectionController.class);
 
     @FXML
     ChoiceBox<Unit> unitSelection;
@@ -39,6 +42,8 @@ public class AdventureSelectionController implements Initializable {
 
     @FXML
     public void initialize(URL url, ResourceBundle resource) {
+        logger.info("Initializing AdventureSelectionController.");
+
         Unit defaultUnit = new Unit("Pack 7146", 3706);
         unitSelection.itemsProperty().setValue(FXCollections.<Unit>observableArrayList(defaultUnit));
         unitSelection.setItems(FXCollections.<Unit>observableArrayList(defaultUnit));

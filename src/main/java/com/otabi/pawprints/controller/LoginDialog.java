@@ -17,12 +17,16 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class LoginDialog extends Stage implements Initializable {
+    final static Logger logger = LoggerFactory.getLogger(LoginDialog.class);
+
     @FXML
     private Text actiontarget;
     @FXML
@@ -33,6 +37,7 @@ public class LoginDialog extends Stage implements Initializable {
     private Button loginButton;
 
     public LoginDialog(Parent parent) {
+        logger.info("Loading LoginDialog.fxml");
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/otabi/pawprints/view/LoginDialog/LoginDialog.fxml"));
         fxmlLoader.setController(this);
 
@@ -40,7 +45,7 @@ public class LoginDialog extends Stage implements Initializable {
             setScene(new Scene((Parent) fxmlLoader.load()));
             bindUIandService();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Error loading LoginDialog.", e);
         }
     }
 
@@ -50,7 +55,7 @@ public class LoginDialog extends Stage implements Initializable {
             Authentication.setEmail(emailInput.getText());
             Authentication.setPassword(passwordInput.getText());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error setting username and password.", e);
         }
 
         loginService.start();
@@ -75,6 +80,7 @@ public class LoginDialog extends Stage implements Initializable {
                 protected void failed() {
                     super.failed();
                     Throwable e = this.getException();
+                    logger.info("Error logging into Scoutbook.", e);
                     actiontarget.setText(String.format("%s\n%s", e.getMessage(), e.getCause().getMessage()));
                     reset();
                 }
