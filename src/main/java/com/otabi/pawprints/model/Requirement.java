@@ -5,11 +5,15 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by Stephen on 11/15/2015.
  */
 public class Requirement {
+    final static Logger logger = LoggerFactory.getLogger(Requirement.class);
+
     protected IntegerProperty requirementNumber;
     protected ObjectProperty<RequirementStatus> requirementStatus;
 

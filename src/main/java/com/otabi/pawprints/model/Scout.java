@@ -8,6 +8,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 
@@ -15,6 +17,8 @@ import java.util.HashMap;
  * Created by Stephen on 11/15/2015.
  */
 public class Scout {
+    final static Logger logger = LoggerFactory.getLogger(Scout.class);
+
     protected final IntegerProperty memberId;
     protected final StringProperty name;
     protected ObservableMap<Rank, Advancement> advancementMap;

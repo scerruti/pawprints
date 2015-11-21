@@ -6,6 +6,8 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,6 +16,8 @@ import java.util.Map;
  * Created by Stephen on 11/15/2015.
  */
 public class Advancement {
+    final static Logger logger = LoggerFactory.getLogger(Advancement.class);
+
     protected final IntegerProperty memberId;
     protected final ObjectProperty<Rank> rank;
     protected Map<Integer, Adventure> adventureMap;

@@ -2,6 +2,8 @@ package com.otabi.pawprints.model;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,6 +14,8 @@ import java.util.Map;
  * Created by Stephen on 11/19/2015.
  */
 public class Program {
+    final static Logger logger = LoggerFactory.getLogger(Program.class);
+
     protected static ArrayList<ProgramAdventure> TIGER_ADVENTURES = new ArrayList<ProgramAdventure>(
             Arrays.asList(
                     new ProgramAdventure(Rank.TIGER, new SimpleIntegerProperty(1), new SimpleStringProperty("Backyard Jungle"),

@@ -7,6 +7,8 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,6 +20,8 @@ import java.util.Map;
  * Created by Stephen on 11/16/2015.
  */
 public class ProgramAdventure {
+    final static Logger logger = LoggerFactory.getLogger(ProgramAdventure.class);
+
     protected final Rank rank;
     protected final IntegerProperty adventureId;
     protected final StringProperty name;
