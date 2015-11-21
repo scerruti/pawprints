@@ -37,7 +37,7 @@ public class Scout {
     }
 
     protected void load(final ProgramAdventure adventure) {
-        HashMap<Rank, Advancement> newAdvancementMap = new HashMap(Rank.values().length);
+        HashMap<Rank, Advancement> newAdvancementMap = new HashMap<Rank, Advancement>(Rank.values().length);
         for (Rank rank : Rank.values()) {
             newAdvancementMap.put(rank, new Advancement(memberId.get(), rank));
         }
@@ -47,10 +47,6 @@ public class Scout {
 
     public String getName() {
         return name.get();
-    }
-
-    public StringProperty nameProperty() {
-        return name;
     }
 
     public Advancement getAdvancement(Rank rank) {
