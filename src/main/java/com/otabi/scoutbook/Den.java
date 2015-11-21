@@ -2,6 +2,8 @@ package com.otabi.scoutbook;
 
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,6 +14,7 @@ import java.util.regex.Pattern;
  * Created by Stephen on 11/15/2015.
  */
 public class Den {
+    protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
     protected static final String SCOUT_NAME = "/mobile/dashboard/admin/account.asp\\?ScoutUserID=(\\d+)\">\\s*(.+?)(?:\\s.*)*?(\\s+.).*?\\s*</a>";
     protected static final Pattern PATTERN = Pattern.compile(SCOUT_NAME);
