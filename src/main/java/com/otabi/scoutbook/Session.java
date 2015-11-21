@@ -1,5 +1,8 @@
 package com.otabi.scoutbook;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -9,15 +12,30 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
  * Created by Stephen on 11/14/2015.
+ * <p>
+ * Some thoughts here. This session makes use of thread local instances so that each thread
+ * has it's own web request capability. However the cookies are kept statically so each thread is
+ * not required to log in separately.
+ * <p>
+ * It's possible to have simultaneous sessions for multiple accounts, but the login process is
+ * synchronized globally.
  */
 public class Session {
+    protected final static Logger staticLogger = LoggerFactory.getLogger(Session.class.getName());
+    protected Logger logger = LoggerFactory.getLogger(this.getClass());
+    private static final String CHARSET = StandardCharsets.UTF_8.name();
 
     private static ThreadLocal<Map<String, Session>> instance;
+
+    static Map<String, Map<String, String>> cookies = new HashMap<String, Map<String, String>>();
+    static boolean loggedIn = false;
+    protected String email;
 
     public static Session getInstance() throws Exception {
         String email = Authentication.getEmail();
@@ -35,44 +53,43 @@ public class Session {
         }
         if (!instance.get().containsKey(email)) {
             Session session = new Session();
+            ReentrantLock loginLock = new ReentrantLock();
+            loginLock.lock();
             try {
-                session.login(email, password);
+                if (!loggedIn) {
+                    session.login(email, password);
+                    loggedIn = true;
+                }
             } catch (Exception e) {
+                staticLogger.error("Login error", e);
                 throw new Exception("Unable to login to Scoutbook.", e);
+            } finally {
+                loginLock.unlock();
             }
+            session.setEmail(email);
             instance.get().put(email, session);
         }
         return instance.get().get(email);
     }
 
-    public static Session getInstance(String email) throws Exception {
-        if (instance == null) {
-            instance = new ThreadLocal<Map<String, Session>>();
-            instance.set(new HashMap<String, Session>());
-        }
-        if (!instance.get().containsKey(email)) {
-            throw new Exception(String.format("No session for %s found.", email));
-        }
-        return instance.get().get(email);
-    }
-
-    private static final String CHARSET = StandardCharsets.UTF_8.name();
-    static Map<String, String> cookies = new HashMap<String, String>();
-
     public void login(String email, String password) throws Exception {
-
-        URL url = null;
+        logger.info("Login for {} requested.", email);
+        Map<String, String> sessionCookies = cookies.get(this.email);
+        URL url;
         HttpURLConnection connection;
 
+        if (sessionCookies == null) {
+            sessionCookies = new HashMap<String, String>();
+        }
         url = URLFactory.getHomepage();
         connection = (HttpURLConnection) url.openConnection();
         connection.connect();
 
-        String headerName = null;
+        String headerName;
         for (int i = 1; (headerName = connection.getHeaderFieldKey(i)) != null; i++) {
             if (headerName.equals("Set-Cookie")) {
                 String cookie = connection.getHeaderField(i);
-                cookies.put(cookie.substring(0, cookie.indexOf("=")), cookie.substring(cookie.indexOf("=") + 1, cookie.indexOf(";")));
+                sessionCookies.put(cookie.substring(0, cookie.indexOf("=")), cookie.substring(cookie.indexOf("=") + 1, cookie.indexOf(";")));
             }
         }
 
@@ -112,37 +129,48 @@ public class Session {
         }
         bufferedReader.close();
 
-        if (connection.getResponseCode() != 200) throw new Exception(content.toString());
+        int responseCode = connection.getResponseCode();
+        if (responseCode != HttpURLConnection.HTTP_OK) {
+            logger.info("Unexpected HTML status {} while logging in.", responseCode);
+            throw new Exception(connection.getResponseMessage());
+        }
 
         Pattern error = Pattern.compile("alert\\('(.*?)\\\\n'\\)");
         Matcher errorMatcher = error.matcher(content);
         if (errorMatcher.find()) {
-            throw new Exception(errorMatcher.group(1));
+            String message = errorMatcher.group(1);
+            logger.info("Likely permissions error {} when logging in.", message);
+            throw new Exception(message);
         }
 
         for (int i = 1; (headerName = connection.getHeaderFieldKey(i)) != null; i++) {
             if (headerName.equals("Set-Cookie")) {
                 String cookie = connection.getHeaderField(i);
-                cookies.put(cookie.substring(0, cookie.indexOf("=")), cookie.substring(cookie.indexOf("=") + 1, cookie.indexOf(";")));
+                sessionCookies.put(cookie.substring(0, cookie.indexOf("=")), cookie.substring(cookie.indexOf("=") + 1, cookie.indexOf(";")));
             }
         }
 
     }
 
-    protected static String getCookies() {
+    protected String getCookies() {
+        Map<String, String> sessionCookies = cookies.get(this.email);
+        if (cookies == null || sessionCookies == null) {
+            logger.debug("No cookies set.");
+            return "";
+        }
+
         StringBuilder cookieBuilder = new StringBuilder();
-        if (cookies != null) {
-            for (String key : cookies.keySet()) {
-                if (cookieBuilder.length() > 0) cookieBuilder.append("; ");
-                cookieBuilder.append(key);
-                cookieBuilder.append("=");
-                cookieBuilder.append(cookies.get(key));
-            }
+        for (String key : sessionCookies.keySet()) {
+            if (cookieBuilder.length() > 0) cookieBuilder.append("; ");
+            cookieBuilder.append(key);
+            cookieBuilder.append("=");
+            cookieBuilder.append(sessionCookies.get(key));
         }
         return cookieBuilder.toString();
     }
 
-    public static String getContent(URL url) throws Exception {
+    public String getContent(URL url) throws Exception {
+        logger.info("Making http request for {}", url.toString());
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setDoOutput(true); // Triggers POST.
         connection.setRequestProperty("Accept-Charset", CHARSET);
@@ -167,5 +195,9 @@ public class Session {
         if (connection.getResponseCode() != 200) throw new Exception(content.toString());
 
         return content.toString();
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
