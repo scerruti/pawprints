@@ -1,6 +1,7 @@
 package com.otabi.pawprints.controller;
 
 import com.otabi.pawprints.PawPrints;
+import com.otabi.pawprints.model.ContentLoader;
 import com.otabi.pawprints.model.Den;
 import com.otabi.pawprints.model.ProgramAdventure;
 import com.otabi.pawprints.model.ProgramRequirement;
@@ -17,6 +18,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -24,6 +26,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Callback;
 import org.slf4j.Logger;
@@ -40,6 +43,15 @@ import java.util.ResourceBundle;
  */
 public class AdventurePaneController implements Initializable,ListChangeListener<Scout> {
     final static Logger logger = LoggerFactory.getLogger(AdventurePaneController.class);
+    protected static final double RED_BAR_THRESHOLD = .6;
+    protected static final double YELLOW_BAR_THRESHOLD = .4;
+    private static final String RED_BAR    = "red-bar";
+    private static final String YELLOW_BAR = "yellow-bar";
+    private static final String ORANGE_BAR = "orange-bar";
+    private static final String GREEN_BAR  = "green-bar";
+    private static final String[] barColorStyleClasses = { RED_BAR, ORANGE_BAR, YELLOW_BAR, GREEN_BAR };
+
+    public HBox progressBox;
 
     @FXML
     protected BorderPane adventurePane;
@@ -55,6 +67,9 @@ public class AdventurePaneController implements Initializable,ListChangeListener
 
     @FXML
     protected TableColumn<com.otabi.pawprints.model.Adventure, String> reqColumn;
+
+    @FXML
+    protected ProgressBar scoutbookLoading;
 
     protected PawPrints pawPrints;
     protected ArrayList<TableColumn> scoutColumnns;
@@ -200,5 +215,33 @@ public class AdventurePaneController implements Initializable,ListChangeListener
     }
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        scoutbookLoading.progressProperty().bind(ContentLoader.getLoaderBurden());
+        scoutbookLoading.progressProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                logger.debug("Progress bar change listener fired {} -> {}.", oldValue, newValue);
+                if ((newValue.doubleValue() > RED_BAR_THRESHOLD) && !(oldValue.doubleValue() > RED_BAR_THRESHOLD)) {
+                    setBarStyleClass(scoutbookLoading, RED_BAR);
+                    logger.debug("Red.");
+
+                } else if (((newValue.longValue() > YELLOW_BAR_THRESHOLD) && (newValue.doubleValue() <= RED_BAR_THRESHOLD)) &&
+                        !((oldValue.doubleValue() > YELLOW_BAR_THRESHOLD) && oldValue.doubleValue() <= RED_BAR_THRESHOLD)) {
+                    setBarStyleClass(scoutbookLoading, YELLOW_BAR);
+                    logger.debug("Yellow.");
+
+                } else if ((newValue.doubleValue() < YELLOW_BAR_THRESHOLD) && (oldValue.doubleValue() >= YELLOW_BAR_THRESHOLD)) {
+                    setBarStyleClass(scoutbookLoading, GREEN_BAR);
+                    logger.debug("Green.");
+
+                }
+            }
+        });
+        progressBox.visibleProperty().bind(ContentLoader.getActiveProperty());
+
+    }
+
+    private void setBarStyleClass(ProgressBar bar, String barStyleClass) {
+        bar.getStyleClass().removeAll(barColorStyleClasses);
+        bar.getStyleClass().add(barStyleClass);
     }
 }
