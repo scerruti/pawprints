@@ -18,6 +18,7 @@ target/
 # manual ignores
 authentication.properties
 /src/test/java/com/otabi/scoutbook/AuthenticationTest.java
+/src/main/java/com/otabi/pawprints/TestLoader.java
 /src/test/java/com/otabi/scoutbook/SessionTest.java
 /src/test/java/com/otabi/pawprints/model/AdvancementTest.java
 /src/test/java/com/otabi/pawprints/model/AdventureTest.java
