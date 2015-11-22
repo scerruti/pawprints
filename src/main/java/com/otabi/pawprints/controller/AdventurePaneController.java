@@ -24,7 +24,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Callback;
 import org.slf4j.Logger;
@@ -40,7 +39,6 @@ import java.util.ResourceBundle;
  * Created by Stephen on 11/16/2015.
  */
 public class AdventurePaneController implements Initializable,ListChangeListener<Scout> {
-    protected static final int MIN_COLUMN_WIDTH = 25;
     final static Logger logger = LoggerFactory.getLogger(AdventurePaneController.class);
 
     @FXML
@@ -56,14 +54,10 @@ public class AdventurePaneController implements Initializable,ListChangeListener
     protected TableView adventureTable;
 
     @FXML
-    protected TableColumn reqColumn;
+    protected TableColumn<com.otabi.pawprints.model.Adventure, String> reqColumn;
 
     protected PawPrints pawPrints;
-    protected boolean denInitialized = false;
-    protected Den currentDen;
-    protected Pane header;
     protected ArrayList<TableColumn> scoutColumnns;
-
 
     public AdventurePaneController() {
     }
@@ -173,13 +167,18 @@ public class AdventurePaneController implements Initializable,ListChangeListener
         if (adventure != null) {
             adventurePane.setVisible(true);
             adventureName.textProperty().setValue(adventure.getName());
-            adventureLoop.imageProperty().setValue(adventure.getLoop());
+            adventureLoop.imageProperty().setValue(adventureImage(adventure));
 
             adventureTable.setItems(adventure.getObservableRequirementList());
         } else {
             adventurePane.setVisible(false);
 
         }
+    }
+
+    private Image adventureImage(ProgramAdventure adventure) {
+        // FIXME Cache images so they aren't reloaded (possibly pre-cache
+        return new Image(adventure.getLoopIcon().get());
     }
 
     public void onChanged(Change<? extends Scout> change) {
