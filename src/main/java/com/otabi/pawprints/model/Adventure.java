@@ -29,6 +29,7 @@ public class Adventure {
     protected boolean loaded = false;
 
     public Adventure(int memberId, Rank rank, int adventureId, RequirementStatus status) {
+        logger.debug("creating adventure for {}:{}", memberId, adventureId);
         this.memberId = new SimpleIntegerProperty(memberId);
         this.rank = new SimpleObjectProperty<Rank>(rank);
         this.adventureId = new SimpleIntegerProperty(adventureId);
@@ -37,6 +38,7 @@ public class Adventure {
     }
 
     private void initializeRequirementMap() {
+        logger.debug("initializing requirement map for {}:{}", memberId, adventureId);
         Rank rank = this.rank.get();
         int memberId = this.memberId.get();
 
@@ -51,12 +53,13 @@ public class Adventure {
         }
     }
 
-    protected void load(final int adventureId) {
+    protected void load() {
+        logger.debug("Loading adventure {}.", adventureId);
 
         if (!status.get().equals(RequirementStatus.INVALID) && !status.equals(RequirementStatus.NOT_STARTED)) {
             try {
                 initializeRequirementMap();
-                new com.otabi.scoutbook.Adventure().getRequirements(memberId.get(), rank.get(), adventureId, new RequirementHandler() {
+                new com.otabi.scoutbook.Adventure().getRequirements(memberId.get(), rank.get(), adventureId.get(), new RequirementHandler() {
                     public void processRequirementMap(HashMap<Integer, com.otabi.scoutbook.Requirement> scoutbookRequirementMap) {
                         for (com.otabi.scoutbook.Requirement scoutbookRequirement : scoutbookRequirementMap.values()) {
                             Requirement requirement = getRequirement(scoutbookRequirement.getRequirementNumber());

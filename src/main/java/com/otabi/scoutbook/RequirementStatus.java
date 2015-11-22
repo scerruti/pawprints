@@ -15,11 +15,9 @@ public enum RequirementStatus {
     LOADING("loading");
 
     private final String checkBoxName;
-    private final Image icon;
 
     RequirementStatus(String checkBoxName) {
         this.checkBoxName = checkBoxName;
-        this.icon = new Image(String.format("com/otabi/pawprints/view/resources/icons/%s.png", this.toString()));
     }
 
     public static RequirementStatus fromCheckBoxName(String name) {
@@ -30,9 +28,5 @@ public enum RequirementStatus {
         }
         return null;
 
-    }
-
-    public Image getIcon() {
-        return icon;
     }
 }

@@ -35,9 +35,6 @@ public class ContentLoadTask extends Task<String> {
         if (url == null) {
             throw new IllegalArgumentException("No URL set in when loading content.");
         }
-        loadingProperty.setValue(true);
-        String content = Session.getInstance().getContent(url);
-        loadingProperty.setValue(false);
-        return content;
+        return Session.getInstance().getContent(url);
     }
 }

@@ -32,15 +32,6 @@ public class Den {
 
     }
 
-    public void loadAdventure(ProgramAdventure adventure) {
-        if (scoutList == null || scoutList.isEmpty()) {
-            load(adventure);
-        } else {
-            for (Scout scout : scoutList) {
-                scout.loadAdventure(adventure);
-            }
-        }
-    }
 
     protected void load(final ProgramAdventure adventure) {
         try {
@@ -57,6 +48,16 @@ public class Den {
             });
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public void loadAdventure(ProgramAdventure adventure) {
+        if (scoutList == null || scoutList.isEmpty()) {
+            load(adventure);
+        } else {
+            for (Scout scout : scoutList) {
+                scout.loadAdventure(adventure);
+            }
         }
     }
 

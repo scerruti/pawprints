@@ -23,12 +23,14 @@ public class Advancement {
     protected Map<Integer, Adventure> adventureMap;
 
     public Advancement(int memberId, Rank rank) {
+        logger.debug("creating advancement {} for scout {}",rank, memberId);
         this.memberId = new SimpleIntegerProperty(memberId);
         this.rank = new SimpleObjectProperty<Rank>(rank);
         initializeAdventureMap();
     }
 
     private void initializeAdventureMap() {
+        logger.debug("initializing {} adventure map for {}", rank, memberId);
         int memberId = this.memberId.get(); Rank rank = this.rank.get();
         if (adventureMap == null || adventureMap.isEmpty()) {
             Map<Integer, ProgramAdventure> programAdventureMap = Program.getAdventureMapByRank(rank);
@@ -41,15 +43,17 @@ public class Advancement {
     }
 
     public void loadAdventure(int adventureId) {
+        logger.debug("loading adventure {} for {}", adventureId, memberId);
         initializeAdventureMap();
         if (adventureMap.get(adventureId).getStatus().equals(RequirementStatus.LOADING)) {
             load(adventureId);
         } else {
-            adventureMap.get(adventureId).load(adventureId);
+            adventureMap.get(adventureId).load();
         }
     }
 
     protected void load(final int adventureId) {
+        logger.debug("load adventures {} for {}", adventureId, memberId);
         try {
             com.otabi.scoutbook.Advancement.getAdventures(memberId.get(), rank.get(), new AdventureHandler() {
                 public void processAdventureMap(Map<Integer, RequirementStatus> scoutbookAdventureMap) {
@@ -58,8 +62,8 @@ public class Advancement {
                     for (Integer adventureId : scoutbookAdventureMap.keySet()) {
                         Adventure adventure = adventureMap.get(adventureId);
                         adventure.setStatus(scoutbookAdventureMap.get(adventureId));
-                        adventure.load(adventureId);
                     }
+                    adventureMap.get(adventureId).load();
                 }
             });
         } catch (Exception e) {

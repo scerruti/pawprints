@@ -3,6 +3,7 @@ package com.otabi.pawprints.model;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,7 +26,7 @@ public class ProgramAdventure {
     protected final Rank rank;
     protected final IntegerProperty adventureId;
     protected final StringProperty name;
-    protected final ObjectProperty<Image> loop;
+    protected final StringProperty loopIcon;
     protected final Map<Integer, ProgramRequirement> requriementMap;
 
     public ProgramAdventure(Rank rank, IntegerProperty adventureId, StringProperty name, int[] requirements) {
@@ -36,10 +37,9 @@ public class ProgramAdventure {
         for (Integer requirement : requirements) {
             requriementMap.put(requirement, new ProgramRequirement(requirement));
         }
-        loop = new SimpleObjectProperty<Image>(this, "adventureImage",
-                new Image(String.format("com/otabi/pawprints/view/resources/%s/%d_100.png",
+        loopIcon = new SimpleStringProperty(String.format("com/otabi/pawprints/view/resources/%s/%d_100.png",
                         rank.toString(),
-                        adventureId.getValue())));
+                        adventureId.getValue()));
     }
 
     public int getAdventureId() {
@@ -84,16 +84,12 @@ public class ProgramAdventure {
     public Rank getRank() {
         return rank;
     }
-
-    public Image getLoop() {
-        return loop.get();
-    }
-
-    public ObjectProperty<Image> loopProperty() {
-        return loop;
-    }
-
+    
     public List<ProgramRequirement> getRequriementMap() {
         return new ArrayList<ProgramRequirement>(requriementMap.values());
+    }
+
+    public StringProperty getLoopIcon() {
+        return loopIcon;
     }
 }
