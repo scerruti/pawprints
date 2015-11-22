@@ -32,7 +32,7 @@ public class ContentLoader {
     private static BooleanProperty activeProperty = new SimpleBooleanProperty();
 
     static {
-        new Timer().schedule(new TimerTask() {
+        new Timer("contentLoadMonitor", true).schedule(new TimerTask() {
             @Override
             public void run() {
                 int activeThreads = ((ThreadPoolExecutor) contentLoaderService).getActiveCount();
@@ -55,6 +55,10 @@ public class ContentLoader {
 
     public static ObservableValue<? extends Boolean> getActiveProperty() {
         return activeProperty;
+    }
+
+    public static void cancelTimer() {
+
     }
 
     static class ContentLoadFactory implements ThreadFactory {

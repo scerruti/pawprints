@@ -11,6 +11,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
@@ -28,6 +29,13 @@ import java.util.regex.Pattern;
  */
 public class Session {
     protected final static Logger staticLogger = LoggerFactory.getLogger(Session.class.getName());
+    protected static final String version = Session.class.getPackage().getImplementationVersion();
+    protected static final String USER_AGENT_STRING =
+            "Mozilla/5.0 (" + System.getProperty("os.name") +
+            "; N; " + Locale.getDefault() +
+            "; " + System.getProperty("os.arch") +
+            "; PawPrints/" + (version != null?version:"dev") +
+            "; +http://github.com/scerruti/pawprints) ";
     protected Logger logger = LoggerFactory.getLogger(this.getClass());
     private static final String CHARSET = StandardCharsets.UTF_8.name();
 
@@ -101,6 +109,7 @@ public class Session {
         connection.setDoOutput(true); // Triggers POST.
         connection.setRequestProperty("Accept-Charset", CHARSET);
         connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=" + CHARSET);
+        connection.setRequestProperty("User-Agent", USER_AGENT_STRING);
 
         String cookieString = getCookies();
         if (!cookieString.isEmpty()) {
@@ -176,6 +185,7 @@ public class Session {
         connection.setDoOutput(true); // Triggers POST.
         connection.setRequestProperty("Accept-Charset", CHARSET);
         connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=" + CHARSET);
+        connection.setRequestProperty("User-Agent", USER_AGENT_STRING);
 
         String cookieString = getCookies();
         if (!cookieString.isEmpty()) {
