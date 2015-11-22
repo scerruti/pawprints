@@ -7,6 +7,7 @@
     <groupId>com.otabi</groupId>
     <artifactId>pawprints</artifactId>
     <version>0.1</version>
+    <packaging>jar</packaging>
 
     <properties>
         <mainClass>com.otabi.pawprints.PawPrints</mainClass>
@@ -94,6 +95,35 @@
 
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>1.4</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <manifestEntries>
+                                        <Main-Class>${mainClass}</Main-Class>
+                                        <Specification-Version>${project.version}</Specification-Version>
+                                    </manifestEntries>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <shadedArtifactAttached>true</shadedArtifactAttached>
+                    <!-- Make the shaded artifact not the main one -->
+                    <shadedClassifierName>shaded</shadedClassifierName>
+                    <!-- set the suffix to the shaded jar -->
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>com.akathist.maven.plugins.launch4j</groupId>
                 <artifactId>launch4j-maven-plugin</artifactId>
                 <version>1.7.8</version>
@@ -107,50 +137,24 @@
                         <configuration>
                             <headerType>gui</headerType>
                             <outfile>target/pawprints.exe</outfile>
-                            <jar>target/pawprints-0.1.jar</jar>
-                            <errTitle>Paw Prints</errTitle>
-                            <manifest/>
-                            <cmdLine>${project.version}</cmdLine>
+                            <jar>target/${project.artifactId}-${project.version}-shaded.jar</jar>                            <errTitle>pawprints</errTitle>
                             <classPath>
                                 <mainClass>${mainClass}</mainClass>
                             </classPath>
                             <jre>
-                                <minVersion>1.8.0_5</minVersion>
-                                <path>${java.home}/jre</path>
-                                <opts>
-                                    <opt>-Dfile.encoding=UTF-8</opt>
-                                </opts>
+                                <minVersion>1.8.0_07</minVersion>
                             </jre>
                             <versionInfo>
-                                <fileVersion>${project.version}.0.0</fileVersion>
-                                <txtFileVersion>Pre-release-${project.version}</txtFileVersion>
-                                <fileDescription>Den Advancement Reporting</fileDescription>
-                                <copyright>Stephen P. Ceruti 2015</copyright>
-                                <productVersion>${project.version}.0.0</productVersion>
-                                <txtProductVersion>Pre-release-${project.version}</txtProductVersion>
-                                <productName>Paw Prints</productName>
+                                <fileVersion>0.1.0.0</fileVersion>
+                                <txtFileVersion>pre-release-${project.version}</txtFileVersion>
+                                <fileDescription>PawPrints Application</fileDescription>
+                                <copyright>Copyright Stephen Cerruti 2015</copyright>
+                                <productVersion>0.0.0.0</productVersion>
+                                <txtProductVersion>0.0.0.0</txtProductVersion>
+                                <productName>PawPrints</productName>
                                 <internalName>pawprints</internalName>
-                                <originalFilename>pawprints.exe</originalFilename>
+                                <originalFilename>original.exe</originalFilename>
                             </versionInfo>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>create-distribution</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <descriptors>
-                                <descriptor>assembly.xml</descriptor>
-                            </descriptors>
-                            <finalName>PawPrints</finalName>
-                            <appendAssemblyId>false</appendAssemblyId>
                         </configuration>
                     </execution>
                 </executions>
