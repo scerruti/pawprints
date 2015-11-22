@@ -1,5 +1,6 @@
 package com.otabi.scoutbook;
 
+import com.otabi.pawprints.model.ContentLoader;
 import com.otabi.pawprints.model.Rank;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -14,7 +15,7 @@ import java.util.regex.Pattern;
  * Created by Stephen on 11/14/2015.
  */
 public class Adventure {
-    protected Logger logger = LoggerFactory.getLogger(this.getClass());
+    final static Logger logger = LoggerFactory.getLogger(Den.class);
     protected static final String ADVENTURE_PATTERN =
             "id=\"requirementID\\d+?\" href=\"adventurerequirement\\.asp\\?RankID=(\\d+)&ScoutUserID=(\\d+)" +
                     "&AdventureID=(\\d+)&AdventureVersionID=(\\d+)&AdventureRequirementID=(\\d+)" +
@@ -23,8 +24,8 @@ public class Adventure {
     protected static final Pattern PATTERN = Pattern.compile(ADVENTURE_PATTERN, Pattern.DOTALL);
 
     public void getRequirements(int scoutID, Rank rank, int adventure, final RequirementHandler handler) throws Exception {
-        ContentLoadTask task = new ContentLoadTask(URLFactory.getAdventure(scoutID, rank, adventure));
-        task.valueProperty().addListener(new ChangeListener<String>() {
+        logger.debug("getting requirements for scout {} adventure {}", scoutID, adventure);
+        ContentLoader.loadContent(URLFactory.getAdventure(scoutID, rank, adventure), new ChangeListener<String>() {
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
                 if (newValue != null) {
 
@@ -42,6 +43,5 @@ public class Adventure {
                 }
             }
         });
-        new Thread(task).start();
     }
 }
