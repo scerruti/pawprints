@@ -23,7 +23,7 @@ public class Adventure {
 
     protected static final Pattern PATTERN = Pattern.compile(ADVENTURE_PATTERN, Pattern.DOTALL);
 
-    public void getRequirements(int scoutID, Rank rank, int adventure, final RequirementHandler handler) throws Exception {
+    public static void getRequirements(int scoutID, Rank rank, int adventure, final RequirementHandler handler) throws Exception {
         logger.debug("getting requirements for scout {} adventure {}", scoutID, adventure);
         ContentLoader.loadContent(URLFactory.getAdventure(scoutID, rank, adventure), new ChangeListener<String>() {
             public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {

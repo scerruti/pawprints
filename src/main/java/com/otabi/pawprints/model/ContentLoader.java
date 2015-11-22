@@ -67,7 +67,7 @@ public class ContentLoader {
         public ContentLoadFactory () {
         }
 
-        @Override public Thread newThread(Runnable runnable) {
+        public Thread newThread(Runnable runnable) {
             Thread thread = new Thread(runnable, "ContentLoaderService-" + poolNumber.getAndIncrement() + "-thread");
             thread.setDaemon(true);
 

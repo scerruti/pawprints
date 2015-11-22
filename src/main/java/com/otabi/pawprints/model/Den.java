@@ -34,7 +34,6 @@ public class Den {
 
     }
 
-
     protected void load(final ProgramAdventure adventure) {
         try {
             com.otabi.scoutbook.Den.getScouts(unit.get(), den.get(), new ScoutHandler() {
