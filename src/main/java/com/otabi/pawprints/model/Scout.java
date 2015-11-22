@@ -16,7 +16,7 @@ import java.util.HashMap;
 /**
  * Created by Stephen on 11/15/2015.
  */
-public class Scout {
+public class Scout implements Comparable<Scout> {
     final static Logger logger = LoggerFactory.getLogger(Scout.class);
 
     protected final IntegerProperty memberId;
@@ -56,5 +56,10 @@ public class Scout {
     public ObjectProperty<RequirementStatus> getRequirementStatus(Rank rank, ProgramRequirement requirement) {
         Advancement advancement = getAdvancement(rank);
         return ((advancement != null) ? advancement.getRequirementStatus(requirement) : null);
+    }
+
+    @Override
+    public int compareTo(Scout otherScout) {
+        return this.getName().compareTo(otherScout.getName());
     }
 }

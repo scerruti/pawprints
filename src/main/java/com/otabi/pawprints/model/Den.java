@@ -11,6 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -43,6 +45,7 @@ public class Den {
                         scout.loadAdventure(adventure);
                         newScoutList.add(scout);
                     }
+                    Collections.sort(newScoutList);
                     scoutList.setAll(newScoutList);
                 }
             });
