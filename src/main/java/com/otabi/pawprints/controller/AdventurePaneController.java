@@ -43,7 +43,7 @@ import java.util.ResourceBundle;
  */
 public class AdventurePaneController implements Initializable,ListChangeListener<Scout> {
     final static Logger logger = LoggerFactory.getLogger(AdventurePaneController.class);
-    protected static final double RED_BAR_THRESHOLD = .6;
+    protected static final double RED_BAR_THRESHOLD = .67;
     protected static final double YELLOW_BAR_THRESHOLD = .4;
     private static final String RED_BAR    = "red-bar";
     private static final String YELLOW_BAR = "yellow-bar";
@@ -224,8 +224,8 @@ public class AdventurePaneController implements Initializable,ListChangeListener
                     setBarStyleClass(scoutbookLoading, RED_BAR);
                     logger.debug("Red.");
 
-                } else if (((newValue.longValue() > YELLOW_BAR_THRESHOLD) && (newValue.doubleValue() <= RED_BAR_THRESHOLD)) &&
-                        !((oldValue.doubleValue() > YELLOW_BAR_THRESHOLD) && oldValue.doubleValue() <= RED_BAR_THRESHOLD)) {
+                } else if (((newValue.doubleValue() > YELLOW_BAR_THRESHOLD) && (newValue.doubleValue() <= RED_BAR_THRESHOLD)) &&
+                        !((oldValue.doubleValue() > YELLOW_BAR_THRESHOLD) && (oldValue.doubleValue() <= RED_BAR_THRESHOLD))) {
                     setBarStyleClass(scoutbookLoading, YELLOW_BAR);
                     logger.debug("Yellow.");
 

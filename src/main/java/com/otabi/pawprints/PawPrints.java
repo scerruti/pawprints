@@ -7,8 +7,11 @@ import com.otabi.pawprints.controller.AdventurePaneController;
 import com.otabi.pawprints.controller.AdventureSelectionController;
 import com.otabi.pawprints.controller.LoginDialog;
 import com.otabi.pawprints.controller.ScoutbookLoadingController;
+import com.otabi.pawprints.model.ContentLoader;
 import com.otabi.pawprints.model.ProgramAdvancement;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
@@ -17,6 +20,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 
@@ -70,6 +74,12 @@ public class PawPrints extends Application {
         }
         rootLayout.getItems().add(pane);
         rootLayout.getItems().add(borderPane);
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent we) {
+                ContentLoader.cancelTimer();
+                Platform.exit();
+            }
+        });
 
         adventureSelectionController = (AdventureSelectionController) loader.getController();
         adventureSelectionController.setMain(this);
