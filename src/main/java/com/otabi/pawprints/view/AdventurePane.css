@@ -1,5 +1,4 @@
-.table-view .column-header .label{
-    -fx-text-fill: green;
-    -fx-min-height: 100px;
-    -fx-min-width: 100px;
-}
+.green-bar  { -fx-accent: green;  }
+.yellow-bar { -fx-accent: yellow; }
+.orange-bar { -fx-accent: orange; }
+.red-bar    { -fx-accent: red;    }
