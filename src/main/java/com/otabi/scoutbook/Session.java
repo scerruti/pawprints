@@ -146,7 +146,7 @@ public class Session {
         }
 
         Pattern error = Pattern.compile("alert\\('(.*?)\\\\n'\\)");
-        Matcher errorMatcher = error.matcher(content);
+        Matcher errorMatcher = error.matcher(content.toString());
         if (errorMatcher.find()) {
             String message = errorMatcher.group(1);
             logger.info("Likely permissions error {} when logging in.", message);
@@ -159,7 +159,6 @@ public class Session {
                 sessionCookies.put(cookie.substring(0, cookie.indexOf("=")), cookie.substring(cookie.indexOf("=") + 1, cookie.indexOf(";")));
             }
         }
-
     }
 
     protected String getCookies() {

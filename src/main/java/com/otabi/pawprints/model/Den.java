@@ -24,16 +24,16 @@ public class Den {
     protected final IntegerProperty unit;
     protected final IntegerProperty den;
     protected final StringProperty denName;
+    protected final Rank rank;
     protected final ObservableList<Scout> scoutList;
 
-    public Den(int unit, int denId, String denName) {
+    public Den(int unit, int denId, String denName, Rank rank) {
         this.unit = new SimpleIntegerProperty(unit);
         this.den = new SimpleIntegerProperty(denId);
         this.denName = new SimpleStringProperty(denName);
+        this.rank = rank;
         this.scoutList = FXCollections.observableArrayList(new ArrayList<Scout>());
-
     }
-
 
     protected void load(final ProgramAdventure adventure) {
         try {
@@ -74,6 +74,10 @@ public class Den {
 
     @Override
     public String toString() {
-        return getDenName();
+        return String.format("%s Den %s", rank.getScoutbookName(), getDenName());
+    }
+
+    public void setName(String name) {
+        this.denName.setValue(name);
     }
 }

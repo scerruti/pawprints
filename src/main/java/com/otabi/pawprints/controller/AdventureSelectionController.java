@@ -5,10 +5,19 @@ import com.otabi.pawprints.model.Den;
 import com.otabi.pawprints.model.Program;
 import com.otabi.pawprints.model.ProgramAdventure;
 import com.otabi.pawprints.model.Rank;
+import com.otabi.pawprints.model.Session;
 import com.otabi.pawprints.model.Unit;
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
@@ -40,25 +49,62 @@ public class AdventureSelectionController implements Initializable {
 
     protected PawPrints main;
 
+    protected ListProperty<Unit> unitListProperty = new SimpleListProperty<Unit>(FXCollections.observableArrayList());
+    protected ListProperty<Den> denListProperty = new SimpleListProperty<Den>(FXCollections.observableArrayList());
+    protected ListProperty<Rank> rankListProperty = new SimpleListProperty<Rank>(FXCollections.observableArrayList());
+
+    protected ObservableList<Den> denList = FXCollections.observableArrayList();
+    protected ObservableList<Rank> rankList = FXCollections.observableArrayList();
+
+    protected final ObjectProperty<Session> currentSession = new SimpleObjectProperty<>();
+
+
     @FXML
     public void initialize(URL url, ResourceBundle resource) {
         logger.info("Initializing AdventureSelectionController.");
 
-        Unit defaultUnit = new Unit("Pack 7146", 3706);
-        unitSelection.itemsProperty().setValue(FXCollections.<Unit>observableArrayList(defaultUnit));
-        unitSelection.setItems(FXCollections.<Unit>observableArrayList(defaultUnit));
-        unitSelection.getSelectionModel().selectFirst();
+        currentSession.addListener(new ChangeListener<Session>() {
+            @Override
+            public void changed(ObservableValue<? extends Session> observable, Session oldValue, Session newValue) {
+                logger.debug("session changed");
+                unitListProperty.bindBidirectional(getCurrentSession().unitListPropertyProperty());
+            }
+        });
 
-        Den defaultDen = new Den(defaultUnit.getUnitId(), 25001, "Tiger Cub Den 3");
-        denSelection.setItems(FXCollections.<Den>observableArrayList(defaultDen));
-        denSelection.getSelectionModel().selectFirst();
 
-        rankSelection.getItems().clear();
-        rankSelection.setItems(FXCollections.<Rank>observableArrayList(Rank.values()));
-        rankSelection.getSelectionModel().selectFirst();
+        unitSelection.itemsProperty().bind(unitListProperty);
+        unitSelection.valueProperty().addListener(new ChangeListener<Unit>() {
+            @Override
+            public void changed(ObservableValue<? extends Unit> observable, Unit oldValue, Unit newValue) {
+                if (newValue.getUnitName().startsWith("Pack")) {
+                    setSelectedUnit(newValue);
+                    denListProperty.bindBidirectional(newValue.getDenListProperty());
+                } else {
+                    unitSelection.getSelectionModel().select(oldValue);
+                }
+            }
+        });
+        unitListProperty.addListener(new ListChangeListener<Unit>() {
+            @Override
+            public void onChanged(Change<? extends Unit> c) {
+                logger.debug("list change {}", c.getList().size());
+                unitSelection.setDisable(unitListProperty == null || unitListProperty.size() == 0);
+            }
+        });
 
+        denSelection.itemsProperty().bind(denListProperty);
+        denListProperty.addListener(new ListChangeListener<Den>() {
+            @Override
+            public void onChanged(Change<? extends Den> c) {
+                logger.debug("list change {}", c.getList().size());
+                denSelection.setDisable(unitListProperty == null || unitListProperty.size() == 0);
+            }
+        });
+        rankSelection.itemsProperty().bind(rankListProperty);
+
+        // FIXME Hardcoded rank
         adventureList.setItems(FXCollections.<ProgramAdventure>observableArrayList(
-                new ArrayList<ProgramAdventure>(Program.getAdventureMapByRank(rankSelection.getValue()).values())));
+                new ArrayList<ProgramAdventure>(Program.getAdventureMapByRank(Rank.TIGER).values())));
         adventureList.getSelectionModel().clearSelection();
         adventureList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ProgramAdventure>() {
             public void changed(ObservableValue<? extends ProgramAdventure> observableValue, ProgramAdventure oldValue, ProgramAdventure newValue) {
@@ -68,6 +114,10 @@ public class AdventureSelectionController implements Initializable {
             }
         });
 
+    }
+
+    private void setSelectedUnit(Unit unit) {
+        denListProperty.bindBidirectional(unit.getDenListProperty());
     }
 
     public void setMain(PawPrints main) {
@@ -88,5 +138,21 @@ public class AdventureSelectionController implements Initializable {
 
     public void setDenChangeListener(ChangeListener<Den> changeListener) {
         denSelection.valueProperty().addListener(changeListener);
+    }
+
+    public ChoiceBox<Unit> getUnitSelection() {
+        return unitSelection;
+    }
+
+    public Session getCurrentSession() {
+        return currentSession.get();
+    }
+
+    public ObjectProperty<Session> currentSessionProperty() {
+        return currentSession;
+    }
+
+    public void setCurrentSession(Session currentSession) {
+        this.currentSession.set(currentSession);
     }
 }

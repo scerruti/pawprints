@@ -1,7 +1,8 @@
 package com.otabi.pawprints.controller;
 
+import com.otabi.pawprints.PawPrints;
+import com.otabi.pawprints.model.Session;
 import com.otabi.scoutbook.Authentication;
-import com.otabi.scoutbook.Session;
 import javafx.beans.binding.Bindings;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -35,6 +36,7 @@ public class LoginDialog extends Stage implements Initializable {
     private PasswordField passwordInput;
     @FXML
     private Button loginButton;
+    private PawPrints pawPrints;
 
     public LoginDialog(Parent parent) {
         logger.info("Loading LoginDialog.fxml");
@@ -51,13 +53,6 @@ public class LoginDialog extends Stage implements Initializable {
 
     @FXML
     protected void handleSubmitButtonAction(ActionEvent event) {
-        try {
-            Authentication.setEmail(emailInput.getText());
-            Authentication.setPassword(passwordInput.getText());
-        } catch (Exception e) {
-            logger.error("Error setting username and password.", e);
-        }
-
         loginService.start();
     }
 
@@ -72,7 +67,8 @@ public class LoginDialog extends Stage implements Initializable {
             return new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
-                    Session.getInstance();
+                    Session aSession = new Session(pawPrints, emailInput.getText(), passwordInput.getText());
+                    pawPrints.getAdventureSelectionController().currentSessionProperty().setValue(aSession);
                     return null;
                 }
 
@@ -88,7 +84,7 @@ public class LoginDialog extends Stage implements Initializable {
                 @Override
                 protected void succeeded() {
                     super.succeeded();
-                    getScene().getRoot().cursorProperty().unbind();
+//                    getScene().getRoot().cursorProperty().unbind();
                     hide();
                 }
             };
@@ -114,4 +110,7 @@ public class LoginDialog extends Stage implements Initializable {
                 );
     }
 
+    public void setMainApp(PawPrints pawPrints) {
+        this.pawPrints = pawPrints;
+    }
 }

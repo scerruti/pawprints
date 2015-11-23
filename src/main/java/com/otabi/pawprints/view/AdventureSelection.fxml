@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+
 <SplitPane dividerPositions="0.45979899497487436" focusTraversable="true" prefHeight="600.0" prefWidth="400.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="com.otabi.pawprints.controller.AdventureSelectionController">
   <items>
     <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
       <children>
-        <ChoiceBox fx:id="unitSelection" maxWidth="1.7976931348623157E308" />
-        <ChoiceBox fx:id="denSelection" maxWidth="1.7976931348623157E308" />
-        <ChoiceBox fx:id="rankSelection" maxWidth="1.7976931348623157E308" />
+        <ChoiceBox fx:id="unitSelection" disable="true" maxWidth="1.7976931348623157E308" />
+        <ChoiceBox fx:id="denSelection" disable="true" maxWidth="1.7976931348623157E308" />
+        <ChoiceBox fx:id="rankSelection" disable="true" maxWidth="1.7976931348623157E308" />
       </children>
       <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" />
