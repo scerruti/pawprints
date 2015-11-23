@@ -11,6 +11,8 @@ import java.net.URL;
 public class URLFactory {
     private static final String HOMEPAGE = "https://www.scoutbook.com/mobile/";
     private static final String LOGIN = "https://www.scoutbook.com/mobile/login.asp";
+    private static final String DASHBOARD = "https://www.scoutbook.com/mobile/dashboard/";
+    private static final String UNIT = "https://www.scoutbook.com/mobile/dashboard/admin/unit.asp?UnitID=%d";
     private static final String DEN = "https://www.scoutbook.com/mobile/dashboard/admin/denpatrol.asp?UnitID=%d&DenID=%d";
     private static final String SCOUT = "https://www.scoutbook.com/mobile/dashboard/admin/account.asp?ScoutUserID=%d";
     private static final String ADVANCEMENT = "https://www.scoutbook.com/mobile/dashboard/admin/advancement/rank.asp?ScoutUserID=%d&RankID=%d";
@@ -22,6 +24,14 @@ public class URLFactory {
 
     public static URL getLogin() throws MalformedURLException {
         return new URL(LOGIN);
+    }
+
+    public static URL getDashboard() throws MalformedURLException {
+        return new URL(DASHBOARD);
+    }
+
+    public static URL getUnit(int unitId) throws MalformedURLException {
+        return new URL(String.format(UNIT, unitId));
     }
 
     public static URL getDen(int unit, int den) throws MalformedURLException {
@@ -39,5 +49,4 @@ public class URLFactory {
     public static URL getAdventure(int scoutID, Rank rank, int adventureID) throws MalformedURLException {
         return new URL(String.format(ADVENTURE, rank.getScoutbookId(), adventureID, scoutID));
     }
-
 }

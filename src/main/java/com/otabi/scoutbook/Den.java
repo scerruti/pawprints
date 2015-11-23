@@ -21,6 +21,13 @@ public class Den {
 
     protected static final String SCOUT_NAME = "/mobile/dashboard/admin/account.asp\\?ScoutUserID=(\\d+)\">\\s*(.+?)(?:\\s.*)*?(\\s+.).*?\\s*</a>";
     protected static final Pattern PATTERN = Pattern.compile(SCOUT_NAME);
+    private String name;
+    private int id;
+
+    public Den(String name, int id) {
+        this.name = name;
+        this.id = id;
+    }
 
     public static void getScouts(int unit, int den, final ScoutHandler handler) throws Exception {
         logger.debug("getting scouts for unit {} den {}", unit, den);
@@ -43,5 +50,17 @@ public class Den {
                 }
             }
         });
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getId() {
+        return id;
     }
 }

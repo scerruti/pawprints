@@ -31,7 +31,7 @@ public class PawPrints extends Application {
     private GridPane adventureGrid;
     protected Scene scene = null;
     public static final ProgramAdvancement PROGRAM = new ProgramAdvancement();
-    private AdventureSelectionController adventureSelectionController;
+    protected AdventureSelectionController adventureSelectionController;
     protected BorderPane borderPane = new BorderPane();
     AdventureLoadService adventureLoader = new AdventureLoadService();
 
@@ -86,6 +86,7 @@ public class PawPrints extends Application {
         primaryStage.show();
 
         LoginDialog loginDialog = new LoginDialog(null);
+        loginDialog.setMainApp(this);
         loginDialog.showAndWait();
         scene.getRoot().cursorProperty().setValue(Cursor.DEFAULT);
 
