@@ -78,6 +78,7 @@ public class AdventureSelectionController implements Initializable {
             public void changed(ObservableValue<? extends Unit> observable, Unit oldValue, Unit newValue) {
                 if (newValue.getUnitName().startsWith("Pack")) {
                     setSelectedUnit(newValue);
+                    denListProperty.bindBidirectional(newValue.getDenListProperty());
                 } else {
                     unitSelection.getSelectionModel().select(oldValue);
                 }
@@ -92,6 +93,13 @@ public class AdventureSelectionController implements Initializable {
         });
 
         denSelection.itemsProperty().bind(denListProperty);
+        denListProperty.addListener(new ListChangeListener<Den>() {
+            @Override
+            public void onChanged(Change<? extends Den> c) {
+                logger.debug("list change {}", c.getList().size());
+                denSelection.setDisable(unitListProperty == null || unitListProperty.size() == 0);
+            }
+        });
         rankSelection.itemsProperty().bind(rankListProperty);
 
         // FIXME Hardcoded rank

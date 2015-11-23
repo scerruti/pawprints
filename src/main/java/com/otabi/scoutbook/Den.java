@@ -24,6 +24,11 @@ public class Den {
     private String name;
     private int id;
 
+    public Den(String name, int id) {
+        this.name = name;
+        this.id = id;
+    }
+
     public static void getScouts(int unit, int den, final ScoutHandler handler) throws Exception {
         logger.debug("getting scouts for unit {} den {}", unit, den);
         ContentLoader.loadContent(URLFactory.getDen(unit, den), new ChangeListener<String>() {
@@ -49,6 +54,10 @@ public class Den {
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getId() {

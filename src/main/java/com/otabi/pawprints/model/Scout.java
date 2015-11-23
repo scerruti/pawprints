@@ -37,10 +37,9 @@ public class Scout implements Comparable<Scout> {
     }
 
     protected void load(final ProgramAdventure adventure) {
+        Rank rank = adventure.getRank();
         HashMap<Rank, Advancement> newAdvancementMap = new HashMap<Rank, Advancement>(Rank.values().length);
-        for (Rank rank : Rank.values()) {
-            newAdvancementMap.put(rank, new Advancement(memberId.get(), rank));
-        }
+        newAdvancementMap.put(rank, new Advancement(memberId.get(), rank));
         newAdvancementMap.get(adventure.getRank()).loadAdventure(adventure.getAdventureId());
         advancementMap = FXCollections.observableMap(newAdvancementMap);
     }
