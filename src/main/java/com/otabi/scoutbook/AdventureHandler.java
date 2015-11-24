@@ -1,5 +1,7 @@
 package com.otabi.scoutbook;
 
+import com.otabi.pawprints.model.RequirementStatus;
+
 import java.util.Map;
 
 /**

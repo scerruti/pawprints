@@ -1,7 +1,6 @@
 package com.otabi.pawprints.model;
 
 import com.otabi.scoutbook.RequirementHandler;
-import com.otabi.scoutbook.RequirementStatus;
 import com.sun.javafx.collections.ObservableMapWrapper;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;

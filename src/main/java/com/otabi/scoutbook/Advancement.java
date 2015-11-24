@@ -2,6 +2,7 @@ package com.otabi.scoutbook;
 
 import com.otabi.pawprints.model.ContentLoader;
 import com.otabi.pawprints.model.Rank;
+import com.otabi.pawprints.model.RequirementStatus;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import org.slf4j.Logger;

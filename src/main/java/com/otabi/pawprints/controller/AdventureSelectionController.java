@@ -5,6 +5,7 @@ import com.otabi.pawprints.model.Den;
 import com.otabi.pawprints.model.Program;
 import com.otabi.pawprints.model.ProgramAdventure;
 import com.otabi.pawprints.model.Rank;
+import com.otabi.pawprints.model.RequirementStatus;
 import com.otabi.pawprints.model.Session;
 import com.otabi.pawprints.model.Unit;
 import javafx.beans.property.ListProperty;
@@ -34,6 +35,12 @@ import java.util.ResourceBundle;
  */
 public class AdventureSelectionController implements Initializable {
     final static Logger logger = LoggerFactory.getLogger(AdventureSelectionController.class);
+
+    @FXML
+    public PawPrint print;
+
+    @FXML
+    public ChoiceBox<RequirementStatus> printType;
 
     @FXML
     ChoiceBox<Unit> unitSelection;

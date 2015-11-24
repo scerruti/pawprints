@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
+<?import com.otabi.pawprints.controller.PawPrint?>
 <SplitPane dividerPositions="0.45979899497487436" focusTraversable="true" prefHeight="600.0" prefWidth="400.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="com.otabi.pawprints.controller.AdventureSelectionController">
   <items>
     <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">

@@ -1,6 +1,6 @@
-package com.otabi.scoutbook;
+package com.otabi.pawprints.model;
 
-import javafx.scene.image.Image;
+import java.util.Arrays;
 
 /**
  * Created by Stephen on 11/14/2015.
@@ -28,5 +28,9 @@ public enum RequirementStatus {
         }
         return null;
 
+    }
+
+    public static String[] getNames() {
+        return Arrays.stream(RequirementStatus.class.getEnumConstants()).map(Enum::name).toArray(String[]::new);
     }
 }
