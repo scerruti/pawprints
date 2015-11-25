@@ -8,6 +8,7 @@ import com.otabi.pawprints.model.Rank;
 import com.otabi.pawprints.model.RequirementStatus;
 import com.otabi.pawprints.model.Session;
 import com.otabi.pawprints.model.Unit;
+import javafx.application.Platform;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -56,7 +57,7 @@ public class AdventureSelectionController implements Initializable {
 
     protected PawPrints main;
 
-    protected ListProperty<Unit> unitListProperty = new SimpleListProperty<Unit>(FXCollections.observableArrayList());
+    protected ListProperty<Unit> unitListProperty = new SimpleListProperty<Unit>();
     protected ListProperty<Den> denListProperty = new SimpleListProperty<Den>(FXCollections.observableArrayList());
     protected ListProperty<Rank> rankListProperty = new SimpleListProperty<Rank>(FXCollections.observableArrayList());
 
@@ -75,27 +76,45 @@ public class AdventureSelectionController implements Initializable {
             public void changed(ObservableValue<? extends Session> observable, Session oldValue, Session newValue) {
                 logger.debug("session changed");
                 unitListProperty.bindBidirectional(getCurrentSession().unitListPropertyProperty());
+                unitSelection.itemsProperty().bind(unitListProperty);
             }
         });
-
-
-        unitSelection.itemsProperty().bind(unitListProperty);
+        unitListProperty.addListener(new ListChangeListener<Unit>() {
+            @Override
+            public void onChanged(Change<? extends Unit> c) {
+                int currentSize = c.getList().size();
+                int changeSize = 0;
+                while (c.next()) {
+                    if (c.wasAdded()) {
+                        changeSize += c.getAddedSize();
+                    } else if (c.wasRemoved()) {
+                        changeSize -= c.getRemovedSize();
+                    }
+                }
+                unitSelection.setDisable(currentSize == 0);
+                if (currentSize > 0 && ((currentSize - changeSize) == 0)) {
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            unitSelection.getSelectionModel().selectFirst();
+                        }
+                    });
+                }
+            }
+        });
         unitSelection.valueProperty().addListener(new ChangeListener<Unit>() {
             @Override
             public void changed(ObservableValue<? extends Unit> observable, Unit oldValue, Unit newValue) {
                 if (newValue.getUnitName().startsWith("Pack")) {
                     setSelectedUnit(newValue);
                     denListProperty.bindBidirectional(newValue.getDenListProperty());
+                    if (newValue.getDenListProperty().getValue().size() > 0) {
+                        denSelection.getSelectionModel().selectFirst();
+                        denSelection.setDisable(false);
+                    }
                 } else {
                     unitSelection.getSelectionModel().select(oldValue);
                 }
-            }
-        });
-        unitListProperty.addListener(new ListChangeListener<Unit>() {
-            @Override
-            public void onChanged(Change<? extends Unit> c) {
-                logger.debug("list change {}", c.getList().size());
-                unitSelection.setDisable(unitListProperty == null || unitListProperty.size() == 0);
             }
         });
 
@@ -104,7 +123,24 @@ public class AdventureSelectionController implements Initializable {
             @Override
             public void onChanged(Change<? extends Den> c) {
                 logger.debug("list change {}", c.getList().size());
-                denSelection.setDisable(unitListProperty == null || unitListProperty.size() == 0);
+                int currentSize = c.getList().size();
+                int changeSize = 0;
+                while (c.next()) {
+                    if (c.wasAdded()) {
+                        changeSize += c.getAddedSize();
+                    } else if (c.wasRemoved()) {
+                        changeSize -= c.getRemovedSize();
+                    }
+                }
+                denSelection.setDisable(currentSize == 0);
+                if (currentSize > 0 && ((currentSize - changeSize) == 0)) {
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            denSelection.getSelectionModel().selectFirst();
+                        }
+                    });
+                }
             }
         });
         rankSelection.itemsProperty().bind(rankListProperty);

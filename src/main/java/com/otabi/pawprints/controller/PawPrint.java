@@ -3,6 +3,7 @@ package com.otabi.pawprints.controller;
 /**
  * Created by Stephen on 11/23/2015.
  */
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class PawPrint extends StackPane implements Initializable {
     @FXML
     protected Group pawPrint;
 
-    ObjectProperty<RequirementStatus> requirementStatusProperty = new SimpleObjectProperty<RequirementStatus>(RequirementStatus.INVALID);
+    ObjectProperty<RequirementStatus> requirementStatusProperty = new SimpleObjectProperty<RequirementStatus>(RequirementStatus.LOADING);
 
     {
         STROKE.put(null, Color.TRANSPARENT);
@@ -69,6 +70,7 @@ public class PawPrint extends StackPane implements Initializable {
         FILL.put(RequirementStatus.NOT_STARTED, Color.TRANSPARENT);
         FILL.put(RequirementStatus.STARTED, Color.TRANSPARENT);
     }
+
     public PawPrint() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
                 "/com/otabi/pawprints/view/PawPrint/PawPrint.fxml"));
@@ -85,6 +87,7 @@ public class PawPrint extends StackPane implements Initializable {
     @FXML
     public void initialize(URL url, ResourceBundle resource) {
         logger.info("Initialize");
+        pawPrint.setVisible(false);
         requirementStatusProperty.addListener(new ChangeListener<RequirementStatus>() {
             @Override
             public void changed(ObservableValue<? extends RequirementStatus> observable, RequirementStatus oldValue, RequirementStatus newValue) {
@@ -108,11 +111,11 @@ public class PawPrint extends StackPane implements Initializable {
 
         ParallelTransition parallelTransition = new ParallelTransition();
         for (Node child : pawPrint.getChildren()) {
-            if (!(child instanceof  Shape)) continue;
+            if (!(child instanceof Shape)) continue;
 
             logger.error("{} {}", FILL.get(oldValue), FILL.get(newValue));
             FillTransition ft = new FillTransition(Duration.millis(3000), (Shape) child, FILL.get(oldValue), FILL.get(newValue));
-            StrokeTransition st = new StrokeTransition(Duration.millis(500), (Shape) child, STROKE.get(oldValue), STROKE.get(newValue));
+            StrokeTransition st = new StrokeTransition(Duration.millis(3000), (Shape) child, STROKE.get(oldValue), STROKE.get(newValue));
             parallelTransition.getChildren().add(ft);
             parallelTransition.getChildren().add(st);
         }
