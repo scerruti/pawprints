@@ -1,5 +1,6 @@
 package com.otabi.scoutbook;
 
+import com.otabi.pawprints.model.RequirementStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

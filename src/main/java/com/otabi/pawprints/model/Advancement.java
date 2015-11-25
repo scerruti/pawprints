@@ -1,7 +1,6 @@
 package com.otabi.pawprints.model;
 
 import com.otabi.scoutbook.AdventureHandler;
-import com.otabi.scoutbook.RequirementStatus;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;

@@ -7,8 +7,10 @@ import com.otabi.pawprints.model.ProgramAdventure;
 import com.otabi.pawprints.model.ProgramRequirement;
 import com.otabi.pawprints.model.Rank;
 import com.otabi.pawprints.model.Scout;
-import com.otabi.scoutbook.RequirementStatus;
+import com.otabi.pawprints.model.RequirementStatus;
+import com.sun.javafx.scene.control.skin.TableViewSkinBase;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -41,15 +43,15 @@ import java.util.ResourceBundle;
 /**
  * Created by Stephen on 11/16/2015.
  */
-public class AdventurePaneController implements Initializable,ListChangeListener<Scout> {
+public class AdventurePaneController implements Initializable, ListChangeListener<Scout> {
     final static Logger logger = LoggerFactory.getLogger(AdventurePaneController.class);
     protected static final double RED_BAR_THRESHOLD = .67;
     protected static final double YELLOW_BAR_THRESHOLD = .4;
-    private static final String RED_BAR    = "red-bar";
+    private static final String RED_BAR = "red-bar";
     private static final String YELLOW_BAR = "yellow-bar";
     private static final String ORANGE_BAR = "orange-bar";
-    private static final String GREEN_BAR  = "green-bar";
-    private static final String[] barColorStyleClasses = { RED_BAR, ORANGE_BAR, YELLOW_BAR, GREEN_BAR };
+    private static final String GREEN_BAR = "green-bar";
+    private static final String[] barColorStyleClasses = {RED_BAR, ORANGE_BAR, YELLOW_BAR, GREEN_BAR};
 
     public HBox progressBox;
 
@@ -151,30 +153,31 @@ public class AdventurePaneController implements Initializable,ListChangeListener
                 });
 
         column.setCellFactory(new Callback<TableColumn<ProgramRequirement, Integer>, TableCell<ProgramRequirement, RequirementStatus>>() {
-            public TableCell<ProgramRequirement, RequirementStatus> call(TableColumn<ProgramRequirement, Integer> programRequirementIntegerTableColumn) {
-                final Map<RequirementStatus, Image> imageMap = new HashMap<RequirementStatus, Image>();
+            @Override
+            public TableCell<ProgramRequirement, RequirementStatus> call(TableColumn<ProgramRequirement, Integer> param) {
+                return new TableCell<ProgramRequirement, RequirementStatus>() {
+                    PawPrint pawPrint = new PawPrint();
 
-                for (RequirementStatus requirementStatus : RequirementStatus.values()) {
-                    imageMap.put(requirementStatus, new Image(String.format("com/otabi/pawprints/view/resources/icons/%s.png", requirementStatus)));
-                }
-
-                TableCell<ProgramRequirement, RequirementStatus> cell = new TableCell<ProgramRequirement, RequirementStatus>() {
-
-                    ImageView imageView = new ImageView();
+                    {
+                        //pawPrint.requirementStatusProperty.bindBidirectional(<bind property>);
+                        setGraphic(pawPrint);
+                    }
 
                     @Override
-                    protected void updateItem(RequirementStatus requirementStatus, boolean empty) {
-                        if (requirementStatus == null || empty || imageMap.get(requirementStatus) == null) {
-                            imageView.imageProperty().setValue(null);
+                    protected void updateItem(RequirementStatus status, boolean empty) {
+                        if (!empty && status != null) {
+                            pawPrint.setVisible(true);
+                            pawPrint.requirementStatusProperty.setValue(status);
                         } else {
-                            imageView.imageProperty().setValue(imageMap.get(requirementStatus));
+                            pawPrint.setVisible(false);
                         }
-                        setGraphic(imageView);
                     }
+
                 };
-                return cell;
             }
         });
+
+
         adventureTable.getColumns().add(column);
     }
 
