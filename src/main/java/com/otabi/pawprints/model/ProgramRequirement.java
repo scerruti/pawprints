@@ -15,10 +15,10 @@ public class ProgramRequirement {
 
     protected final IntegerProperty requirementNumber;
     protected final StringProperty requirementName;
-
-    public ProgramRequirement(int requirement) {
+    
+    public ProgramRequirement(int requirement, String requirementName) {
         this.requirementNumber = new SimpleIntegerProperty(requirement);
-        this.requirementName = new SimpleStringProperty(Integer.toString(requirement));
+        this.requirementName = new SimpleStringProperty(requirementName);
     }
 
     public int getRequirementNumber() {
