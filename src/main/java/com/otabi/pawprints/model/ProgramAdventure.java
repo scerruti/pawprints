@@ -2,6 +2,7 @@ package com.otabi.pawprints.model;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -29,17 +30,29 @@ public class ProgramAdventure {
     protected final StringProperty loopIcon;
     protected final Map<Integer, ProgramRequirement> requriementMap;
 
-    public ProgramAdventure(Rank rank, IntegerProperty adventureId, StringProperty name, int[] requirements) {
+    public ProgramAdventure(Rank rank, IntegerProperty adventureId, StringProperty name, int mapSize) {
         this.rank = rank;
         this.adventureId = adventureId;
         this.name = name;
-        requriementMap = new HashMap<Integer, ProgramRequirement>(requirements.length);
+        this.requriementMap = new HashMap<Integer, ProgramRequirement>(mapSize);
+        this.loopIcon = new SimpleStringProperty(String.format("com/otabi/pawprints/view/resources/%s/%d_100.png",
+                rank.toString(),
+                adventureId.getValue()));
+    }
+
+    public ProgramAdventure(Rank rank, IntegerProperty adventureId, StringProperty name, int[] requirements) {
+        this(rank, adventureId, name, requirements.length);
+        int i = 0;
         for (Integer requirement : requirements) {
-            requriementMap.put(requirement, new ProgramRequirement(requirement));
+            requriementMap.put(i++, new ProgramRequirement(requirement, Integer.toString(i)));
         }
-        loopIcon = new SimpleStringProperty(String.format("com/otabi/pawprints/view/resources/%s/%d_100.png",
-                        rank.toString(),
-                        adventureId.getValue()));
+    }
+
+    public ProgramAdventure(Rank rank, SimpleIntegerProperty adventureId, SimpleStringProperty name, ProgramRequirement[] programRequirements) {
+        this(rank, adventureId, name, programRequirements.length);
+        for (ProgramRequirement requirement : programRequirements) {
+            requriementMap.put(requirement.getRequirementNumber(), requirement);
+        }
     }
 
     public int getAdventureId() {
