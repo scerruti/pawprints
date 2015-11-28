@@ -6,8 +6,14 @@
 
     <groupId>com.otabi</groupId>
     <artifactId>pawprints</artifactId>
-    <version>0.2</version>
+    <version>0.3-SNAPSHOT</version>
     <packaging>jar</packaging>
+
+    <scm>
+        <connection>scm:git:git@github.com:scerruti/pawprints.git</connection>
+        <url>scm:git:git@github.com:scerruti/pawprints.git</url>
+        <developerConnection>scm:git:git@github.com:scerruti/pawprints.git</developerConnection>
+    </scm>
 
     <properties>
         <mainClass>com.otabi.pawprints.PawPrints</mainClass>
@@ -96,6 +102,11 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.0-beta-9</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>1.4</version>
                 <executions>
@@ -106,7 +117,8 @@
                         </goals>
                         <configuration>
                             <transformers>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <manifestEntries>
                                         <Main-Class>${mainClass}</Main-Class>
                                         <Specification-Version>${project.version}</Specification-Version>
@@ -137,7 +149,8 @@
                         <configuration>
                             <headerType>gui</headerType>
                             <outfile>target/pawprints.exe</outfile>
-                            <jar>target/${project.artifactId}-${project.version}-shaded.jar</jar>                            <errTitle>pawprints</errTitle>
+                            <jar>target/${project.artifactId}-${project.version}-shaded.jar</jar>
+                            <errTitle>pawprints</errTitle>
                             <classPath>
                                 <mainClass>${mainClass}</mainClass>
                             </classPath>
@@ -160,6 +173,21 @@
                 </executions>
             </plugin>
         </plugins>
+
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ftp</artifactId>
+                <version>1.0-alpha-6</version>
+            </extension>
+        </extensions>
     </build>
+
+    <distributionManagement>
+        <repository>
+            <id>otabi-ftp</id>
+            <url>ftp://ftp.otabi.com/public_html/maven2</url>
+        </repository>
+    </distributionManagement>
 
 </project>
