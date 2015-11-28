@@ -96,12 +96,12 @@ public class Program {
 
                     new ProgramAdventure(Rank.TIGER, new SimpleIntegerProperty(17), new SimpleStringProperty("Tiger Tag"),
                             new ProgramRequirement[]{
-                                new ProgramRequirement(120, "1"),
-                                new ProgramRequirement(122, "2a"),
-                                new ProgramRequirement(123, "2b"),
-                                new ProgramRequirement(124, "2c"),
-                                new ProgramRequirement(125, "3"),
-                                new ProgramRequirement(126, "4")}),
+                                    new ProgramRequirement(120, "1"),
+                                    new ProgramRequirement(122, "2a"),
+                                    new ProgramRequirement(123, "2b"),
+                                    new ProgramRequirement(124, "2c"),
+                                    new ProgramRequirement(125, "3"),
+                                    new ProgramRequirement(126, "4")}),
 
                     new ProgramAdventure(Rank.TIGER, new SimpleIntegerProperty(18), new SimpleStringProperty("Tiger Tales"),
                             new int[]{127, 128, 129, 130, 131, 132, 133}),
@@ -118,11 +118,167 @@ public class Program {
                                     new ProgramRequirement(107, "5"),
                                     new ProgramRequirement(108, "6")})));
 
+    protected static ArrayList<ProgramAdventure> WOLF_ADVENTURES = new ArrayList<ProgramAdventure>(
+            Arrays.asList(
+                    new ProgramAdventure(Rank.WOLF, new SimpleIntegerProperty(20), new SimpleStringProperty("Call of the Wild"),
+                            new ProgramRequirement[]{
+                                    new ProgramRequirement(139, "1"),
+                                    new ProgramRequirement(140, "2"),
+                                    new ProgramRequirement(141, "3"),
+                                    new ProgramRequirement(142, "4"),
+                                    new ProgramRequirement(144, "5a"),
+                                    new ProgramRequirement(145, "5b"),
+                                    new ProgramRequirement(146, "5c"),
+                                    new ProgramRequirement(147, "6"),
+                                    new ProgramRequirement(149, "7a"),
+                                    new ProgramRequirement(150, "7b"),
+                                    new ProgramRequirement(151, "7c")}),
+
+                    new ProgramAdventure(Rank.WOLF, new SimpleIntegerProperty(21), new SimpleStringProperty("Council Fire"),
+                            new ProgramRequirement[]{
+                                    new ProgramRequirement(783, "1"),
+                                    new ProgramRequirement(152, "2"),
+                                    new ProgramRequirement(154, "3a"),
+                                    new ProgramRequirement(156, "3b"),
+                                    new ProgramRequirement(158, "4a"),
+                                    new ProgramRequirement(159, "4b"),
+                                    new ProgramRequirement(160, "5"),
+                                    new ProgramRequirement(162, "6a"),
+                                    new ProgramRequirement(163, "6b"),
+                                    new ProgramRequirement(164, "6c")}),
+
+                    new ProgramAdventure(Rank.WOLF, new SimpleIntegerProperty(22), new SimpleStringProperty("Duty to God Footsteps"),
+                            new ProgramRequirement[]{
+                                    new ProgramRequirement(166, "1a"),
+                                    new ProgramRequirement(167, "1b"),
+                                    new ProgramRequirement(169, "2a"),
+                                    new ProgramRequirement(170, "2b"),
+                                    new ProgramRequirement(171, "2c"),
+                                    new ProgramRequirement(172, "2d")}),
+
+                    new ProgramAdventure(Rank.WOLF, new SimpleIntegerProperty(23), new SimpleStringProperty("Howling at the Moon"),
+                            new ProgramRequirement[]{
+                                    new ProgramRequirement(173, "1"),
+                                    new ProgramRequirement(174, "2"),
+                                    new ProgramRequirement(175, "3"),
+                                    new ProgramRequirement(176, "4")}),
+
+                    new ProgramAdventure(Rank.WOLF, new SimpleIntegerProperty(24), new SimpleStringProperty("Paws on the Path"),
+                            new int[]{177, 178, 179, 180, 181, 182, 183, 184}),
+
+                    new ProgramAdventure(Rank.WOLF, new SimpleIntegerProperty(25), new SimpleStringProperty("Running with the Pack"),
+                            new int[]{185, 186, 187, 188, 189, 190}),
+
+                    new ProgramAdventure(Rank.WOLF, new SimpleIntegerProperty(26), new SimpleStringProperty("Adventures in Coins"),
+                            new int[]{191, 192, 193, 194, 195, 196, 197}),
+
+                    new ProgramAdventure(Rank.WOLF, new SimpleIntegerProperty(27), new SimpleStringProperty("Air of the Wolf"),
+                            new ProgramRequirement[]{
+                                    new ProgramRequirement(199, "1a"),
+                                    new ProgramRequirement(200, "1b"),
+                                    new ProgramRequirement(202, "1c i"),
+                                    new ProgramRequirement(203, "1c ii"),
+                                    new ProgramRequirement(204, "1c iii"),
+                                    new ProgramRequirement(205, "1c iv"),
+                                    new ProgramRequirement(207, "2a"),
+                                    new ProgramRequirement(208, "2b"),
+                                    new ProgramRequirement(209, "2c"),
+                                    new ProgramRequirement(211, "3a"),
+                                    new ProgramRequirement(212, "3b"),
+                                    new ProgramRequirement(213, "4")}),
+
+                    new ProgramAdventure(Rank.WOLF, new SimpleIntegerProperty(28), new SimpleStringProperty("Code of the Wolf"),
+                            new ProgramRequirement[]{
+                                    new ProgramRequirement(215, "1a"),
+                                    new ProgramRequirement(216, "1b"),
+                                    new ProgramRequirement(218, "1c 1"),
+                                    new ProgramRequirement(219, "1c 2"),
+                                    new ProgramRequirement(220, "1c 3"),
+                                    new ProgramRequirement(221, "1c 4"),
+                                    new ProgramRequirement(222, "1c 5"),
+                                    new ProgramRequirement(223, "1d"),
+                                    new ProgramRequirement(224, "1e"),
+                                    new ProgramRequirement(226, "2a"),
+                                    new ProgramRequirement(227, "2b"),
+                                    new ProgramRequirement(228, "2c"),
+                                    new ProgramRequirement(231, "3a i"),
+                                    new ProgramRequirement(232, "3a ii"),
+                                    new ProgramRequirement(233, "3a iii"),
+                                    new ProgramRequirement(234, "3a iv"),
+                                    new ProgramRequirement(235, "3a v"),
+                                    new ProgramRequirement(236, "3b"),
+                                    new ProgramRequirement(237, "3c"),
+                                    new ProgramRequirement(239, "4a"),
+                                    new ProgramRequirement(240, "4b"),
+                                    new ProgramRequirement(241, "4c")}),
+
+                    new ProgramAdventure(Rank.WOLF, new SimpleIntegerProperty(29), new SimpleStringProperty("Collections and Hobbies"),
+                            new int[]{242, 243, 244, 245, 246, 247}),
+
+                    new ProgramAdventure(Rank.WOLF, new SimpleIntegerProperty(30), new SimpleStringProperty("Cubs Who Care"),
+                            new ProgramRequirement[]{
+                                    new ProgramRequirement(248, "1"),
+                                    new ProgramRequirement(250, "2a"),
+                                    new ProgramRequirement(251, "2b"),
+                                    new ProgramRequirement(252, "2c"),
+                                    new ProgramRequirement(254, "2d i"),
+                                    new ProgramRequirement(255, "2c ii"),
+                                    new ProgramRequirement(256, "2c iii"),
+                                    new ProgramRequirement(257, "2c iV"),
+                                    new ProgramRequirement(258, "2c v"),
+                                    new ProgramRequirement(259, "2c vi"),
+                                    new ProgramRequirement(260, "e"),
+                                    new ProgramRequirement(261, "f"),
+                                    new ProgramRequirement(262, "g"),
+                                    new ProgramRequirement(263, "h")}),
+
+                    new ProgramAdventure(Rank.WOLF, new SimpleIntegerProperty(31), new SimpleStringProperty("Digging in the Past"),
+                            new int[]{264, 265, 266, 267, 268, 269}),
+
+                    new ProgramAdventure(Rank.WOLF, new SimpleIntegerProperty(32), new SimpleStringProperty("Finding Your Way"),
+                            new ProgramRequirement[]{
+                                    new ProgramRequirement(271, "1a"),
+                                    new ProgramRequirement(272, "1b"),
+                                    new ProgramRequirement(273, "2"),
+                                    new ProgramRequirement(275, "3a"),
+                                    new ProgramRequirement(276, "3b"),
+                                    new ProgramRequirement(277, "4"),
+                                    new ProgramRequirement(278, "5")}),
+
+                    new ProgramAdventure(Rank.WOLF, new SimpleIntegerProperty(33), new SimpleStringProperty("Germs Alive!"),
+                            new int[]{279, 280, 281, 282, 283, 284}),
+
+                    new ProgramAdventure(Rank.WOLF, new SimpleIntegerProperty(34), new SimpleStringProperty("Grow Something"),
+                            new ProgramRequirement[]{
+                                    new ProgramRequirement(285, "1"),
+                                    new ProgramRequirement(286, "2"),
+                                    new ProgramRequirement(287, "3"),
+                                    new ProgramRequirement(288, "4"),
+                                    new ProgramRequirement(290, "5a"),
+                                    new ProgramRequirement(291, "5b")}),
+
+                    new ProgramAdventure(Rank.WOLF, new SimpleIntegerProperty(35), new SimpleStringProperty("Hometown Heroes"),
+                            new int[]{292, 293, 294, 295, 296, 297}),
+
+                    new ProgramAdventure(Rank.WOLF, new SimpleIntegerProperty(36), new SimpleStringProperty("Motor Away"),
+                            new ProgramRequirement[]{
+                                    new ProgramRequirement(299, "1a"),
+                                    new ProgramRequirement(300, "1b"),
+                                    new ProgramRequirement(301, "2"),
+                                    new ProgramRequirement(302, "3")}),
+
+                    new ProgramAdventure(Rank.WOLF, new SimpleIntegerProperty(37), new SimpleStringProperty("Paws of Skill"),
+                            new int[]{303, 304, 305, 306, 307, 308, 309}),
+
+                    new ProgramAdventure(Rank.WOLF, new SimpleIntegerProperty(38), new SimpleStringProperty("Spirit of the Water"),
+                            new int[]{310, 311, 312, 313, 314, 315})));
+
     protected static final ProgramAdvancement  program = new ProgramAdvancement();
 
 
     static {
-        program.setAdventureMapForRank(Rank.TIGER, TIGER_ADVENTURES);
+            program.setAdventureMapForRank(Rank.TIGER, TIGER_ADVENTURES);
+            program.setAdventureMapForRank(Rank.WOLF, WOLF_ADVENTURES);
     }
 
     public static Map<Integer, ProgramAdventure> getAdventureMapByRank(Rank rank) {

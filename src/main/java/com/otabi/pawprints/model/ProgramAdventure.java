@@ -35,8 +35,7 @@ public class ProgramAdventure {
         this.adventureId = adventureId;
         this.name = name;
         this.requriementMap = new HashMap<Integer, ProgramRequirement>(mapSize);
-        this.loopIcon = new SimpleStringProperty(String.format("com/otabi/pawprints/view/resources/%s/%d_100.png",
-                rank.toString(),
+        this.loopIcon = new SimpleStringProperty(String.format("com/otabi/pawprints/view/resources/loops/%d_100.png",
                 adventureId.getValue()));
     }
 
