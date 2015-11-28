@@ -80,4 +80,8 @@ public class Den {
     public void setName(String name) {
         this.denName.setValue(name);
     }
+
+    public Rank getRank() {
+        return rank;
+    }
 }

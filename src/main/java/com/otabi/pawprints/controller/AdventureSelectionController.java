@@ -143,12 +143,23 @@ public class AdventureSelectionController implements Initializable {
                 }
             }
         });
+        denSelection.valueProperty().addListener(new ChangeListener<Den>() {
+            @Override
+            public void changed(ObservableValue<? extends Den> observable, Den oldValue, Den newValue) {
+                rankSelection.valueProperty().setValue(newValue.getRank());
+            }
+        });
         rankSelection.itemsProperty().bind(rankListProperty);
 
-        // FIXME Hardcoded rank
-        adventureList.setItems(FXCollections.<ProgramAdventure>observableArrayList(
-                new ArrayList<ProgramAdventure>(Program.getAdventureMapByRank(Rank.TIGER).values())));
-        adventureList.getSelectionModel().clearSelection();
+        rankSelection.valueProperty().addListener(new ChangeListener<Rank>() {
+            @Override
+            public void changed(ObservableValue<? extends Rank> observable, Rank oldValue, Rank newValue) {
+                adventureList.setItems(FXCollections.<ProgramAdventure>observableArrayList(
+                        new ArrayList<ProgramAdventure>(Program.getAdventureMapByRank(newValue).values())));
+                adventureList.getSelectionModel().clearSelection();
+            }
+        });
+
         adventureList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ProgramAdventure>() {
             public void changed(ObservableValue<? extends ProgramAdventure> observableValue, ProgramAdventure oldValue, ProgramAdventure newValue) {
                 if (newValue != null) {

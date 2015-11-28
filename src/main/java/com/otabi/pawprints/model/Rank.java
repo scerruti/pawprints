@@ -7,7 +7,7 @@ public enum Rank {
 
     //FIXME Correct scoutbook den ids
     TIGER(8, "Tiger Cub"),
-    WOLF(8, "Wolf"),
+    WOLF(9, "Wolf"),
     BEAR(8, "Bear"),
     WEBELOS(8, "Webelos");
 

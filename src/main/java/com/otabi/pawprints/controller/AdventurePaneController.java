@@ -142,8 +142,9 @@ public class AdventurePaneController implements Initializable, ListChangeListene
                 new Callback<TableColumn.CellDataFeatures<ProgramRequirement, Integer>, ObservableValue<RequirementStatus>>() {
 
                     public ObservableValue<RequirementStatus> call(TableColumn.CellDataFeatures<ProgramRequirement, Integer> programRequirement) {
-                        // FIXME Rank Hardcoded
-                        ObjectProperty<RequirementStatus> requirement = scout.getRequirementStatus(Rank.TIGER, programRequirement.getValue());
+                        Rank rank = pawPrints.getAdventureSelectionController().rankSelection.getValue();
+
+                        ObjectProperty<RequirementStatus> requirement = scout.getRequirementStatus(rank, programRequirement.getValue());
                         if (requirement != null) {
                             return requirement;
                         } else {
