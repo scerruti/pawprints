@@ -4,14 +4,14 @@
 
     <groupId>com.otabi</groupId>
     <artifactId>pawprints</artifactId>
-    <version>0.4.1-SNAPSHOT</version>
+    <version>0.4.1</version>
     <packaging>jar</packaging>
 
     <scm>
         <connection>scm:git:https://github.com/scerruti/pawprints.git</connection>
         <url>scm:git:https://github.com/scerruti/pawprints.git</url>
         <developerConnection>scm:git:https://github.com/scerruti/pawprints.git</developerConnection>
-        <tag>pawprints-0.3</tag>
+        <tag>pawprints-0.4.1</tag>
     </scm>
 
     <properties>
