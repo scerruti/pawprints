@@ -16,6 +16,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.SplitPane;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -50,7 +51,9 @@ public class PawPrints extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         setPrimaryStage(primaryStage);
-        this.primaryStage.setTitle("Paw Prints");
+        primaryStage.setTitle("Paw Prints");
+        Image icon = new Image("/com/otabi/pawprints/view/resources/icons/icon64.png");
+        primaryStage.getIcons().add(icon);
 
         try {
             // Load the root layout from the fxml file
@@ -83,9 +86,16 @@ public class PawPrints extends Application {
 
         adventureSelectionController = (AdventureSelectionController) loader.getController();
         adventureSelectionController.setMain(this);
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                Platform.exit();
+            }
+        });
+
         primaryStage.show();
 
-        LoginDialog loginDialog = new LoginDialog(null);
+        LoginDialog loginDialog = new LoginDialog();
         loginDialog.setMainApp(this);
         loginDialog.showAndWait();
         scene.getRoot().cursorProperty().setValue(Cursor.DEFAULT);
