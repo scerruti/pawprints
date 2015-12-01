@@ -92,15 +92,9 @@ public class PawPrint extends StackPane implements Initializable {
             @Override
             public void changed(ObservableValue<? extends RequirementStatus> observable, RequirementStatus oldValue, RequirementStatus newValue) {
                 if (newValue == null) {
-                    logger.info("PawPrint null");
                     pawPrint.setVisible(false);
                 } else {
                     pawPrint.setVisible(true);
-                    logger.info("PawPrint {} {}", newValue.name(), pawPrint.getStyleClass().toString());
-//                    pawPrint.getStyleClass().add(newValue.name());
-//                    ArrayList<String> otherStyles = new ArrayList<String>(Arrays.asList(PAWPRINT_STYLE_CLASSES));
-//                    otherStyles.remove(newValue.name());
-//                    pawPrint.getStyleClass().removeAll(otherStyles);
                     transition(oldValue, newValue);
                 }
             }

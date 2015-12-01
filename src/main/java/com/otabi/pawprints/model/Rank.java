@@ -5,11 +5,10 @@ package com.otabi.pawprints.model;
  */
 public enum Rank {
 
-    //FIXME Correct scoutbook den ids
     TIGER(8, "Tiger Cub"),
     WOLF(9, "Wolf"),
-    BEAR(8, "Bear"),
-    WEBELOS(8, "Webelos");
+    BEAR(10, "Bear"),
+    WEBELOS(11, "Webelos");
 
     public static final Rank[] ACTIVE_RANKS = {TIGER};
 
