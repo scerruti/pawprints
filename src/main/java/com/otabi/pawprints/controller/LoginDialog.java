@@ -3,10 +3,12 @@ package com.otabi.pawprints.controller;
 import com.otabi.pawprints.PawPrints;
 import com.otabi.pawprints.model.Session;
 import com.otabi.scoutbook.Authentication;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,8 +18,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,10 +44,22 @@ public class LoginDialog extends Stage implements Initializable {
     private Button loginButton;
     private PawPrints pawPrints;
 
-    public LoginDialog(Parent parent) {
+    public LoginDialog() {
+        super();
+        initStyle(StageStyle.UNDECORATED);
+        initModality(Modality.WINDOW_MODAL);
         logger.info("Loading LoginDialog.fxml");
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/otabi/pawprints/view/LoginDialog/LoginDialog.fxml"));
         fxmlLoader.setController(this);
+        Image icon = new Image("/com/otabi/pawprints/view/resources/icons/icon64.png");
+        getIcons().add(icon);
+        this.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                Platform.exit();
+            }
+        });
+
 
         try {
             setScene(new Scene((Parent) fxmlLoader.load()));
