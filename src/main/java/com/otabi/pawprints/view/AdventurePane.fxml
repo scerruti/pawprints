@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.geometry.Insets?>
@@ -16,63 +17,72 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-
 <?import java.net.URL?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+
+
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <BorderPane fx:id="adventurePane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0"
-                    visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                    AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <BorderPane fx:id="adventurePane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <bottom>
                 <HBox fx:id="progressBox" alignment="BOTTOM_RIGHT" visible="false">
                     <padding>
-                        <Insets left="10" right="10" bottom="10" top="10"/>
+                        <Insets bottom="10" left="10" right="10" top="10" />
                     </padding>
                     <children>
-                        <ProgressIndicator progress="-1" prefWidth="60" prefHeight="60">
-                            <padding><Insets right="10" bottom="10" top="10"/></padding>
+                        <ProgressIndicator prefHeight="60" prefWidth="60" progress="-1">
+                            <padding>
+                        <Insets bottom="10" right="10" top="10" />
+                     </padding>
                         </ProgressIndicator>
                         <VBox>
                             <children>
-                                <Label text="Reading data from Scoutbook.com" textAlignment="CENTER"/>
-                                <ProgressBar fx:id="scoutbookLoading" prefWidth="180.0" progress="0.0" styleClass="green-bar"/>
+                                <Label text="Reading data from Scoutbook.com" textAlignment="CENTER" />
+                                <ProgressBar fx:id="scoutbookLoading" prefWidth="180.0" progress="0.0" styleClass="green-bar" />
                             </children>
                         </VBox>
                     </children>
                 </HBox>
             </bottom>
             <center>
-                <TableView fx:id="adventureTable">
-                    <columns>
-                        <TableColumn prefWidth="75.0" sortType="ASCENDING" fx:id="reqColumn">
-                            <graphic>
-                                <Group>
-                                    <children>
-                                        <Label rotate="-90.0" text="Requirements" textAlignment="LEFT"/>
-                                    </children>
-                                </Group>
-                            </graphic>
-                        </TableColumn>
-                    </columns>
-                    <sortOrder>
-                        <fx:reference source="reqColumn"/>
-                    </sortOrder>
-                </TableView>
+            <ScrollPane prefViewportHeight="400.0" prefViewportWidth="541.0">
+               <content>
+                      <TableView fx:id="adventureTable">
+                          <columns>
+                              <TableColumn fx:id="reqColumn" prefWidth="75.0" sortType="ASCENDING">
+                                  <graphic>
+                                      <Group>
+                                          <children>
+                                              <Label rotate="-90.0" text="Requirements" textAlignment="LEFT" />
+                                          </children>
+                                      </Group>
+                                  </graphic>
+                              </TableColumn>
+                          </columns>
+                          <sortOrder>
+                              <fx:reference source="reqColumn" />
+                          </sortOrder>
+                      </TableView>
+               </content>
+            </ScrollPane>
             </center>
             <top>
                 <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                     <children>
-                        <ImageView fx:id="adventureLoop" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true"
-                                   preserveRatio="true">
+                        <ImageView fx:id="adventureLoop" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                             <HBox.margin>
-                                <Insets/>
+                                <Insets />
                             </HBox.margin>
                         </ImageView>
                         <GridPane alignment="CENTER">
                             <children>
-                                <Label fx:id="adventureName" alignment="CENTER" contentDisplay="CENTER"
-                                       textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                                <Label fx:id="adventureName" alignment="CENTER" contentDisplay="CENTER" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                             </children>
+                     <columnConstraints>
+                        <ColumnConstraints />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints />
+                     </rowConstraints>
                         </GridPane>
                     </children>
                 </HBox>
@@ -80,8 +90,8 @@
         </BorderPane>
     </children>
 
-    <stylesheets>
+          <stylesheets>
         <URL value="@AdventurePane.css" />
     </stylesheets>
 
-</AnchorPane>
+      </AnchorPane>
