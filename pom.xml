@@ -4,7 +4,7 @@
 
     <groupId>com.otabi</groupId>
     <artifactId>pawprints</artifactId>
-    <version>0.4.6-SNAPSHOT</version>
+    <version>0.4.6</version>
     <description>Scoutbook based den advancement reporting tool.</description>
     <url>https://github.com/scerruti/pawprints</url>
     <packaging>jar</packaging>
@@ -26,7 +26,7 @@
         <connection>scm:git:git://github.com/scerruti/pawprints.git</connection>
         <url>https://github.com/scerruti/pawprints.git</url>
         <developerConnection>scm:git:git@github.com:scerruti/pawprints.git</developerConnection>
-        <tag>MASTER</tag>
+        <tag>pawprints-0.4.6</tag>
     </scm>
 
     <properties>
